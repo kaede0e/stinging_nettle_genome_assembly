@@ -1,5 +1,5 @@
 # Stinging nettle genome assembly
-Codes/pipeline used in genome assembly report on _Urtica dioica_ssp. _dioica_ (stinging nettle)
+Codes/pipeline used in genome assembly report on _Urtica dioica_ ssp. _dioica_ (stinging nettle)
 
 This assembly report consists of: 
 - _De novo_ genome assembly with PacBio HiFi reads + Hi-C
