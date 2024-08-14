@@ -21,11 +21,12 @@ _De novo_ assembly pipeline (exact steps I've taken)
 8) Repeat 3-5 on each haplotype separately again on the original contig-level assembly file - Round_2_H1.fa, Round_2_H2.fa
 9) Combine H1 and H2 and repeat 3-5 - H1_H2_v2.fa
 10) Perform a draft gene annotation with the Transdecoder pipeline used in lingonberry paper, ensuring that the annotated genes covered most of the chromosomes (BUSCO: 61% but genes were homogeneously distributed across the genome so I used it)
-11) Use Anchorwave to align H1 and H2, verify any SVs that are present and whether they are real on Hi-C map
-12) Use minimap2 to align H1 and H2 also, similarly do the same to check SVs
-13) Use RepeatOBserver to check if some of the "difficult to resolve" regions are overlaping with centromeres or other repetitive regions - in that case, there is not much you can do to resolve the assembly... Also double check that homeologous chromosomes have reasonably similar centromeric positions. 
-14) Perform final polishing with Juicebox on H1_H2_v2.fa file and ensure all SVs are real - Round_3_H1.fa, Round_3_H2.fa
-15) Assign chromosome numbers that are homeologous between two haplotypes (13 chr each) - Nettle_female_H1_chr_renamed.fa, Nettle_female_H2_chr_renamed.fa
-16) Run final Bandage (N50, etc.), BUSCO score, and Merqury (QV, k-mer completeness, etc.) on the assemblies.
+11) Error correct ONT reads using Canu, filter the output by Q10 and length 30kbp, then map in a further effort to close gaps in the assembly using TGS_gap_closer - did nothing. 
+12) Use Anchorwave to align H1 and H2, verify any SVs that are present and whether they are real on Hi-C map
+13) Use minimap2 to align H1 and H2 also, similarly do the same to check SVs
+14) Use RepeatOBserver to check if some of the "difficult to resolve" regions are overlaping with centromeres or other repetitive regions - in that case, there is not much you can do to resolve the assembly... Also double check that homeologous chromosomes have reasonably similar centromeric positions. 
+15) Perform final polishing with Juicebox on H1_H2_v2.fa file and ensure all SVs are real - Round_3_H1.fa, Round_3_H2.fa
+16) Assign chromosome numbers that are homeologous between two haplotypes (13 chr each) - Nettle_female_H1_chr_renamed.fa, Nettle_female_H2_chr_renamed.fa
+17) Run final Bandage (N50, etc.), BUSCO score, and Merqury (QV, k-mer completeness, etc.) on the assemblies.
 
 
