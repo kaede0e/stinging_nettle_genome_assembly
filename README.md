@@ -3,8 +3,8 @@ Codes/pipeline used in genome assembly report on _Urtica dioica_ ssp. _dioica_ (
 
 This assembly report consists of: 
 - _De novo_ genome assembly with PacBio HiFi reads + Hi-C
-- Gene annotation with BRAKER3 (planned)
-- Repeat annotation with EDTA  (planned) and RepeatOBserver
+- Gene annotation with BRAKER3 
+- Repeat annotation with EDTA (TEs) and RepeatOBserver (telomeric sequences, centromeric repeats)
 - Describe polycentric behaviour of nettle chromosomes
 - Describe genes/proteins that are potentially responsible for stinging hairs
 - Describe fibre synthesis genes presence
@@ -23,10 +23,18 @@ _De novo_ assembly pipeline (exact steps I've taken)
 10) Perform a draft gene annotation with the Transdecoder pipeline used in lingonberry paper, ensuring that the annotated genes covered most of the chromosomes (BUSCO: 61% but genes were homogeneously distributed across the genome so I used it)
 11) Error correct ONT reads using Canu, filter the output by Q10 and length 30kbp, then map in a further effort to close gaps in the assembly using TGS_gap_closer - did nothing. 
 12) Use Anchorwave to align H1 and H2, verify any SVs that are present and whether they are real on Hi-C map
-13) Use minimap2 to align H1 and H2 also, similarly do the same to check SVs
+13) Use minimap2 to align H1 and H2 also, similarly do the same to check SVs --> looks like minimap2 identifies a lot more dubious organization of contigs in chromosomes
 14) Use RepeatOBserver to check if some of the "difficult to resolve" regions are overlaping with centromeres or other repetitive regions - in that case, there is not much you can do to resolve the assembly... Also double check that homeologous chromosomes have reasonably similar centromeric positions. 
 15) Perform final polishing with Juicebox on H1_H2_v2.fa file and ensure all SVs are real - Round_3_H1.fa, Round_3_H2.fa
 16) Assign chromosome numbers that are homeologous between two haplotypes (13 chr each) - Nettle_female_H1_chr_renamed.fa, Nettle_female_H2_chr_renamed.fa
-17) Run final Bandage (N50, etc.), BUSCO score, and Merqury (QV, k-mer completeness, etc.) on the assemblies.
+17) Based on SyRI output in step 13, manually check for INV/TRANS regions if they are real or not
+18) First identify exact coordinates of such variations. Second change these in H1 / H2 assembly file in Juicebox. Third, if these are unclear, check in H1+H2 asesmbly file in Juicebox.
+19) To check the uncertainties remain, I mapped HiFi reads and >30kb ONT reads to the assembly using Winnowmap, visualized the alignment in IGV - the point is to see if any of those long-reads span the breakpoints of such SVs to support the orientation/position of contigs.
+20) Finalize the best guesses --> Round_5_H1.fa, Round_5_H2.fa
+21) Align to the published _U. dioica_ genome from Darwin Tree of Life - if any variations are found, we make notes of it. I changed my chromosome numbering based on homologous relationship to this published genome (Udio_DToL). --> Nettle_female_Round_5_H1_chrname_renamed.fa, Nettle_female_Round_5_H2_chrname_renamed.fa
+22) Run final Bandage (N50, etc.), BUSCO score, and Merqury (QV, k-mer completeness, etc.) on the assemblies.
+
+_De novo_ annotation pipeline 
+
 
 
