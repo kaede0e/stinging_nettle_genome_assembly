@@ -9,6 +9,8 @@ source /home/khirabayashi/miniforge3/bin/activate
 
 # my conda environnments are found in /home/khirabayashi/miniforge3/envs
 
+# You need the following directory structure (in my case at least this worked)
+#### .bashrc contains ####
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/khirabayashi/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -27,8 +29,6 @@ if [ -f "/home/khirabayashi/miniforge3/etc/profile.d/mamba.sh" ]; then
     . "/home/khirabayashi/miniforge3/etc/profile.d/mamba.sh"
 fi
 # <<< conda initialize <<<
-
-# I have added the above to activate miniforge3 from .bashrc.
 
 # In addition, BRAKER3 requires many of its dependencies to be explicitly stated in .bashrc. Add below also:
 export PATH=$PATH:/home/khirabayashi/bin/BRAKER/scripts
@@ -50,8 +50,87 @@ export TSEBRA_PATH=/home/khirabayashi/bin/BRAKER/GeneMark-ETP/bin/gmes/TSEBRA/bi
 
 # install all dependencies in appropriate conda/anaconda/bioconda/mamba settings - perl module 2.26 was sufficient for most programs EXCEPT Augustus (2.5.0) which required perl >2.32.
 #So for this, I made a separate conda for Augustus and configured it there, and then add that configurations to the PATH.
+#Installed BRAKER3 from github: /home/khirabayashi/bin/BRAKER
+export PATH=$PATH:/home/khirabayashi/bin/BRAKER
+export PATH=$PATH:/home/khirabayashi/bin/BRAKER/scripts
 
-# now you use BRAKER3 like this:
+#Then install manually all the perl dependencies with conda install xxx (have to do one by one if any requirement files fail)
+#
+conda install --yes --file requirements.txt
+#
+#BRAKER3 requirements for my case: run the following as 
+#"conda install -c bioconda --yes --file requirements_braker_with_bioconda.txt" 
+echo "perl-app-cpanminus
+perl-file-spec
+perl-hash-merge
+perl-list-util
+perl-module-load-conditional
+perl-posix
+perl-file-homedir
+perl-parallel-forkmanager
+perl-scalar-util-numeric
+perl-yaml
+perl-class-data-inheritable
+perl-exception-class
+perl-test-pod
+perl-file-which # skip if you are not comparing to reference annotation
+perl-mce
+perl-threaded
+perl-list-util
+perl-math-utils
+cdbtools
+perl-data-dumper" > requirements_braker_with_bioconda.txt
+
+#"conda install -c --yes --file bioconda requirements_braker_with_anaconda.txt" 
+echo "perl
+biopython" > requirements_braker_with_bioconda.txt
+
+#Augustus requirements for my case: run the following as
+#"mamba install --yes --file requirements_augustus_mamba.txt"
+echo "zlib
+boost-cpp
+gsl
+lp_solve
+biopython
+perl
+perl-app-cpanminus
+perl-module-build
+perl-dbi
+perl-scalar-list-utils
+perl-file-which
+sqlite
+suitesparse
+tar" > requirements_augustus_mamba.txt
+#"conda install -c --yes --file bioconda requirements_augustus_bioconda.txt"
+echo "ucsc-twobitinfo
+ucsc-fatotwobit
+perl-yaml
+perl-parallel-forkmanager
+htslib
+diamond
+cdbtools
+bamtools" > requirements_augustus_bioconda.txt
+
+
+#now install rest of the programs that could not be found in the above list individually. 
+conda install -c eumetsat perl-yaml-xs
+
+#GeneMarkET downloaded from github inside BRAKER
+export PATH=$PATH:/home/khirabayashi/bin/BRAKER/GeneMark-ETP/bin
+export PATH=$PATH:/home/khirabayashi/bin/BRAKER/GeneMark-ETP/tools
+
+#### check for dependencies with ./check_install.pl 
+conda install hcc::perl-statistics-linefit #this was needed for GeneMarkETP , but problem
+Could not solve for environment specs
+The following packages are incompatible
+├─ perl-statistics-linefit is installable and it requires
+│  └─ perl >=5.26.2,<5.26.3.0a0 , which can be installed;
+└─ perl 5.32.1  is not installable because it conflicts with any installable versions previously reported.
+
+#as long as this check passes, you're probably okay to run the test script for BRAKER! 
+
+
+### now you use BRAKER3 like this: ###
 
 conda activate BRAKER3_env
 (BRAKER3_env) # indicates you're in the BRAKER3_env container.
@@ -60,7 +139,7 @@ conda activate BRAKER3_env
 cd ~/bin/BRAKER/example/tests/test3.sh
 cat test3.sh:
 
-#/-----------------------------------------------------
+#-----------------------------------------------------
 wd=test3
 
 if [ -d $wd ]; then
@@ -80,9 +159,9 @@ fi
 # see https://github.com/gatech-genemark/ProtHint#protein-database-preparation
 
 ( time braker.pl --genome=../genome.fa --prot_seq=../proteins.fa --bam=../RNAseq.bam --workingdir=$wd --threads 8 --skipOptimize ) &> test3.log
-#/-----------------------------------------------------
+#-----------------------------------------------------
 
-#BRAKER3 run:
+#BRAKER3 run for nettle genome:
 # pre-requisite files
 #1. softmask your genome (I used RED - Repeat Detector in Cedar)
 #2. align RNAseq to your genome and export filel in BAM format
