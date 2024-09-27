@@ -46,6 +46,7 @@ This assembly report consists of:
 - Compare syntenic relationship with Morus genome, that has previously shown polycentric behaviour in an experiment
 
 
-# Describe genes/proteins that are potentially responsible for stinging hairs
-
+## Describe genes/proteins that are potentially responsible for stinging hairs
+- try search the protein sequence against full genome with miniprot(https://github.com/lh3/miniprot)
+- 
 
