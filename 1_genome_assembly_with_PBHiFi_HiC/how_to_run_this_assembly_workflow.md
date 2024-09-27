@@ -2,8 +2,6 @@
 This page shows how exactly I have run the programs to finalize the reference genome asesmbly, chromosome-scale phased genomes, for stinging nettle (_Urtica dioica_).
 For actually running the pipeline, see the individual script separated by types of jbos/programs. I tried to explicitly label which scripts were used. 
 
-#------------------------------------------------------------------------#
-
 #---------Useful code for pre-assembly with Hi-Fi data------------#
 
 #!/bin/bash
