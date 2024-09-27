@@ -1,4 +1,4 @@
-## Stinging nettle genome assembly
+# Stinging nettle genome assembly
 Codes/pipeline used in genome assembly report on _Urtica dioica_ ssp. _dioica_ (stinging nettle)
 
 This assembly report consists of: 
@@ -10,7 +10,7 @@ This assembly report consists of:
 - Describe fibre synthesis genes presence
 - Describe basic phylogenetics with related taxa in Urticaceae family. 
 
-# _De novo_ assembly pipeline (exact steps I've taken)
+## _De novo_ assembly pipeline (exact steps I've taken)
 1) Filter HiFi reads by Q20
 2) Run Hififasm with HiFi + Hi-C
 3) Run Juicer to produce .hic and .assembly file - works as a matrix for Hi-C reads to then map onto. 
@@ -34,13 +34,13 @@ This assembly report consists of:
 21) Align to the published _U. dioica_ genome from Darwin Tree of Life - if any variations are found, we make notes of it. I changed my chromosome numbering based on homologous relationship to this published genome (Udio_DToL). --> Nettle_female_Round_5_H1_chrname_renamed.fa, Nettle_female_Round_5_H2_chrname_renamed.fa
 22) Run final Bandage (N50, etc.), BUSCO score, and Merqury (QV, k-mer completeness, etc.) on the assemblies.
 
-# _De novo_ annotation pipeline 
+## _De novo_ annotation pipeline 
 1) Softmask repetitive regions with RepeatDetector
 2) Align published RNAseq to the softmasked genome using Hisat2 and export as sorted BAM file
 3) Annotate genes with BRAKER3 using softmasked genome, RNAseq BAM, and Viridiplantae (OrthoDB) protein database
 4) Annotate TEs with EDTA on the pre-masked genonme
 
-# Describe polycentric behaviour of chromosomes  
+## Describe polycentric behaviour of chromosomes  
 - We used RepeatOBserver to visualize general patterns of repeat structure and found some unique centromeric repeats distributions
 - Search for specific centromeric/telomeric repeat sequences with RepeatOBserver results
 - Compare syntenic relationship with Morus genome, that has previously shown polycentric behaviour in an experiment
