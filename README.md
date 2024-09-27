@@ -47,6 +47,6 @@ This assembly report consists of:
 
 
 ## Describe genes/proteins that are potentially responsible for stinging hairs
-- try search the protein sequence against full genome with miniprot(https://github.com/lh3/miniprot)
-- 
+- try search the protein sequence against full genome with [miniprot](https://github.com/lh3/miniprot)
+- you could also try "tblastn -word_size 2 -max_intron_length 2000"; "tblastx" can be used to search a nucleotide database with a cDNA sequence and both will be translated in all six frames internally during the search
 
