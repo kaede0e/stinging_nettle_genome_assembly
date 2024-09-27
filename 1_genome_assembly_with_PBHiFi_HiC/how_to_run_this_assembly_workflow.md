@@ -406,6 +406,10 @@ python3 $PATH_TO_SYRI -c Nettle_female_DToL_primary_Round_5_reordered_H1_minimap
 python3 $PATH_TO_SYRI -c Nettle_female_DToL_primary_Round_5_reordered_H2_minimap2_rev2_aln.sam -r refgenome -q qrygenome_H2_chr_rev_renamed.fa --prefix DToLpri_Round5_H2_rev -k -F S 2> syri_error2_H2_out.txt
 
 ## SyRI would report genomic structural differences in syri.out and syri.vcf.
+
+## Plot the syri.out using plotsr - also installed in the SyRI conda env.
+#plotsr --sr syri.out --genomes genomes.txt -o syri_plotsr_output_plot.png -S 0.5 -W 7 -H 10 -f 8
+
 ## then from syri.out file, you can select for regions you want to check (eg. "INV") and copy those to Excel spreadsheet for record keeping. Go to Juicebox and check which orientations makes more sense.
 
 
