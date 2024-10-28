@@ -11,11 +11,11 @@ This assembly report consists of:
 - Describe basic phylogenetics with related taxa in Urticaceae family. 
 
 ## _De novo_ assembly pipeline (exact steps I've taken)
-1) Filter HiFi reads by Q20
-2) Run Hififasm with HiFi + Hi-C
-3) Run Juicer to produce .hic and .assembly file - works as a matrix for Hi-C reads to then map onto. 
-4) Use 3d-dna_pipeline to map Hi-C reads to assembly
-5) Open the output in Juicebox, manually fix contigs & assign chromosomes
+1) Filter HiFi reads by Q20 [fastq.filter](https://github.com/LUMC/fastq-filter)
+2) Run [Hififasm](https://hifiasm.readthedocs.io/en/latest/) with HiFi + Hi-C
+3) Run [Juicer](https://github.com/aidenlab/juicer) to produce .hic and .assembly file - works as a matrix for Hi-C reads to then map onto. 
+4) Use [3d-dna_pipeline](https://github.com/aidenlab/3d-dna) to map Hi-C reads to assembly
+5) Open the output in Juicebox, manually fix contigs & assign chromosomes - see https://aidenlab.org/assembly/manual_180322.pdf for details
 6) Repeat 3-5 on each haplotype separately - Round_1_H1.fa, Round_1_H2.fa
 7) Combine H1 and H2 and repeat 3-5 - H1_H2_v1.fa
 8) Repeat 3-5 on each haplotype separately again on the original contig-level assembly file - Round_2_H1.fa, Round_2_H2.fa
@@ -34,19 +34,25 @@ This assembly report consists of:
 21) Align to the published _U. dioica_ genome from Darwin Tree of Life - if any variations are found, we make notes of it. I changed my chromosome numbering based on homologous relationship to this published genome (Udio_DToL). --> Nettle_female_Round_5_H1_chrname_renamed.fa, Nettle_female_Round_5_H2_chrname_renamed.fa
 22) Run final Bandage (N50, etc.), BUSCO score, and Merqury (QV, k-mer completeness, etc.) on the assemblies.
 
+
+For list of intermediate files generated during the above process in a table, see my_juicebox.assembly_files.txt.
+_also on the manuscript, I am referring to the different round number designations because I did not perform quality metric checks at every step on the way. I divided the Rounds of curation by distinctive steps with QC vakues available: Round 1 - visual Hi-C scaffolding with H1 and H2 and H1+H2 maps, Round 2 - attemp to incorporate ONT reads to fill the gaps, further curation with H1+H2 map and visually inspect, Round 3 - extensive manual curation using minimap2+SyRI coordinates to check INVs specificially, as well as checking if long-reads span breakpoints._
+
+
 ## _De novo_ annotation pipeline 
-1) Softmask repetitive regions with RepeatDetector
-2) Align published RNAseq to the softmasked genome using Hisat2 and export as sorted BAM file
-3) Annotate genes with BRAKER3 using softmasked genome, RNAseq BAM, and Viridiplantae (OrthoDB) protein database
-4) Annotate TEs with EDTA on the pre-masked genonme
+1) Softmask repetitive regions with [RepeatDetector](https://github.com/nextgenusfs/redmask)
+2) Align published RNAseq to the softmasked genome using [Hisat2](https://daehwankimlab.github.io/hisat2/) and export as sorted BAM file
+3) Annotate genes with [BRAKER3](https://github.com/Gaius-Augustus/BRAKER) using softmasked genome, RNAseq BAM, and Viridiplantae (OrthoDB) protein database
+4) Annotate TEs with [EDTA](https://github.com/oushujun/EDTA) on the pre-masked genonme
 
 ## Describe polycentric behaviour of chromosomes  
-- We used RepeatOBserver to visualize general patterns of repeat structure and found some unique centromeric repeats distributions
+- We used [RepeatOBserver](https://github.com/celphin/RepeatOBserverV1/tree/main) to visualize general patterns of repeat structure and found some unique centromeric repeats distributions
 - Search for specific centromeric/telomeric repeat sequences with RepeatOBserver results
 - Compare syntenic relationship with Morus genome, that has previously shown polycentric behaviour in an experiment
+- Compare synteny in Urticaceae family with [GENESPACE](https://github.com/jtlovell/GENESPACE)
 
 
 ## Describe genes/proteins that are potentially responsible for stinging hairs
 - try search the protein sequence against full genome with [miniprot](https://github.com/lh3/miniprot)
-- you could also try "tblastn -word_size 2 -max_intron_length 2000"; "tblastx" can be used to search a nucleotide database with a cDNA sequence and both will be translated in all six frames internally during the search
+
 
