@@ -3,7 +3,7 @@ This page shows steps taken to with commandilne tools in chronological order;j p
 To replicate this pipeline in your genome using your cluster, see the individual script separated by types of jobs/programs. I tried to explicitly label which scripts were used. 
 
 #---------Useful code for pre-assembly with Hi-Fi data------------#
-
+```
 #!/bin/bash
 #SBATCH --account=
 #SBATCH --time=1-0
@@ -28,7 +28,9 @@ END{
 
 #- for general info on a bam file: 
 samtools view -H Urtica_QC_m84074_230923_140523_s2.hifi_reads.bam
+```
 #output: 
+
 #nettle_f
 ```
 @HD     VN:1.6  SO:unknown      pb:5.0.0
@@ -50,14 +52,16 @@ samtools view -H Urtica_QC_m84074_230923_140523_s2.hifi_reads.bam
 
 #SMRT tools commandline in Cedar 
 #- gives you basic information on your HiFi reads (read length average, Qscore, yield in bp)
+```
 SMRT_ROOT=/home/~bin/pacbio/smrtlink
 export PATH=$PATH:/home/~bin/pacbio/smrtlink/smrtcmds/bin/
 dataset create --name Nettle_female_Pacbio_hifi --type ConsensusReadSet Nettle_female_Pacbio_hifi.xml Urtica_QC_m84074_230923_140523_s2.hifi_reads.bam
 mkdir Nettle_female_Pacbio_hifi_runqc
 runqc-reports -o Nettle_female_Pacbio_hifi_runqc Nettle_female_Pacbio_hifi.xml
+```
 
 #------------------------------------------------------------------------#
-
+```
 #!/bin/bash
 #SBATCH --time=5-00:00:00
 #SBATCH --mem=192000M
@@ -96,7 +100,7 @@ echo "Done assembly with Hifiasm. Use 3D-DNA to scaffold contigs further."
 # ---------------------------------------------------------------------
 
 echo "Finished job at `date`"
-
+```
 
 # ---------------------------------------------------------------------
 # ---------------------------------------------------------------------
