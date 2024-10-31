@@ -2,7 +2,7 @@
 This page shows steps taken to with commandilne tools in chronological order;j pipeline for a chromosome-scale phased genome assembly of stinging nettle (_Urtica dioica_).
 To replicate this pipeline in your genome using your cluster, see the individual script separated by types of jobs/programs. I tried to explicitly label which scripts were used. 
 
-# ---------Useful code for pre-assembly with Hi-Fi data----------- #
+### ---------Useful code for pre-assembly with Hi-Fi data----------- ###
 ```
 #!/bin/bash
 #SBATCH --account=
