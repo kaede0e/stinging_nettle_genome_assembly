@@ -1,18 +1,18 @@
 ### HiFiasm + Hi-C genome assembly pipeline ###
-This page shows how exactly I have run the programs to finalize the reference genome asesmbly, chromosome-scale phased genomes, for stinging nettle (_Urtica dioica_).
-For actually running the pipeline, see the individual script separated by types of jbos/programs. I tried to explicitly label which scripts were used. 
+This page shows steps taken to with commandilne tools in chronological order;j pipeline for a chromosome-scale phased genome assembly of stinging nettle (_Urtica dioica_).
+To replicate this pipeline in your genome using your cluster, see the individual script separated by types of jobs/programs. I tried to explicitly label which scripts were used. 
 
 #---------Useful code for pre-assembly with Hi-Fi data------------#
 
 #!/bin/bash
-#SBATCH --account=rrg-gowens
+#SBATCH --account=
 #SBATCH --time=1-0
 #SBATCH --mem=30Gb
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/bam2fastq_nettle_female.20Feb2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/bam2fastq_nettle_female.20Feb2024.err
+#SBATCH --output=
+#SBATCH --error=
 
-SMRT_ROOT=/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/pacbio/smrtlink
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/pacbio/smrtlink/smrtcmds/bin/
+SMRT_ROOT=/home/~bin/pacbio/smrtlink
+export PATH=$PATH:/home/~bin/pacbio/smrtlink/smrtcmds/bin/
 
 bam2fastq -o Pacbio_hifi/Nettle_female_Pacbio_hifi Pacbio_hifi/Urtica_QC_m84074_230923_140523_s2.hifi_reads.bam
 
@@ -45,8 +45,8 @@ samtools view -H Urtica_QC_m84074_230923_140523_s2.hifi_reads.bam
 
 #- SMRT tools commandline in Cedar 
 #- gives you basic information on your HiFi reads (read length average, Qscore, yield in bp)
-SMRT_ROOT=/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/pacbio/smrtlink
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/pacbio/smrtlink/smrtcmds/bin/
+SMRT_ROOT=/home/~bin/pacbio/smrtlink
+export PATH=$PATH:/home/~bin/pacbio/smrtlink/smrtcmds/bin/
 dataset create --name Nettle_female_Pacbio_hifi --type ConsensusReadSet Nettle_female_Pacbio_hifi.xml Urtica_QC_m84074_230923_140523_s2.hifi_reads.bam
 mkdir Nettle_female_Pacbio_hifi_runqc
 runqc-reports -o Nettle_female_Pacbio_hifi_runqc Nettle_female_Pacbio_hifi.xml
@@ -56,10 +56,10 @@ runqc-reports -o Nettle_female_Pacbio_hifi_runqc Nettle_female_Pacbio_hifi.xml
 #!/bin/bash
 #SBATCH --time=5-00:00:00
 #SBATCH --mem=192000M
-#SBATCH --account=rrg-gowens
+#SBATCH --account=
 #SBATCH --cpus-per-task=48
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hifiasm_asm.20Feb2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hifiasm_asm.20Feb2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 ### Draft genome assembly with HiFiasm + Hi-C data ###
 
@@ -105,25 +105,25 @@ echo "Finished job at `date`"
 
 #do this to run it as a pipeline based on Eric's script (https://github.com/ericgonzalezs/ASSEMBLIES/blob/main/Juicer)
 #haplotype 1 
-ln -s /home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/juicer/CPU/ scripts
+ln -s /home/~bin/juicer/CPU/ scripts
 cd scripts/common
 wget https://hicfiles.tc4ga.com/public/juicer/juicer_tools.1.9.9_jcuda.0.8.jar
 ln -s juicer_tools.1.9.9_jcuda.0.8.jar  juicer_tools.jar
 cd ../..
 mkdir fastq
 cd fastq
-ln -s /home/kaedeh/projects/rrg-gowens/kaedeh/Nettle/raw_data/HiC/HiC_Nettle_FemQC1_FKDL240020059-1A_223GFKLT4_L1_1.fq.gz HiC_Nettle_FemQC1_R1.fastq.gz
-ln -s /home/kaedeh/projects/rrg-gowens/kaedeh/Nettle/raw_data/HiC/HiC_Nettle_FemQC1_FKDL240020059-1A_223GFKLT4_L1_2.fq.gz HiC_Nettle_FemQC1_R2.fastq.gz
+ln -s /home/Nettle/raw_data/HiC/HiC_Nettle_FemQC1_FKDL240020059-1A_223GFKLT4_L1_1.fq.gz HiC_Nettle_FemQC1_R1.fastq.gz
+ln -s /home/Nettle/raw_data/HiC/HiC_Nettle_FemQC1_FKDL240020059-1A_223GFKLT4_L1_2.fq.gz HiC_Nettle_FemQC1_R2.fastq.gz
 cd ../..
 mkdir references
 cd references/
-ln -s /home/kaedeh/projects/rrg-gowens/kaedeh/Nettle/output/assembly/Nettle_female.asm.hic.hap1.p_ctg.fa Nettle_female.asm.hic.hap1.p_ctg.fa
+ln -s /home/Nettle/output/assembly/Nettle_female.asm.hic.hap1.p_ctg.fa Nettle_female.asm.hic.hap1.p_ctg.fa
 module load bwa
 bwa index Nettle_female.asm.hic.hap1.p_ctg.fa #Run this in a job
 cd ..
 mkdir restriction_sites 
 cd restriction_sites
-scp /home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/juicer/misc/generate_site_positions.py .
+scp /home/~bin/juicer/misc/generate_site_positions.py .
 #---- here download the juicer/misc/generate_site_positions.py and edit accordingly
   filenames = {
     'hg19': '/seq/references/Homo_sapiens_assembly19.fasta',
@@ -148,16 +148,16 @@ done
 #SBATCH --time=1-00:00:00
 #SBATCH --mem=510000M
 #SBATCH --cpus-per-node=32
-#SBATCH --account=def-gowens
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_juicer_hic.01Mar2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_juicer_hic.01Mar2024.err
+#SBATCH --account=
+#SBATCH --output=
+#SBATCH --error=
 
 #####################################
 ### Execution of programs ###########
 #####################################
 
 module load StdEnv/2020 bwa/0.7.17 java/17.0.2 samtools/1.15.1
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/juicer/CPU
+export PATH=$PATH:/home/~bin/juicer/CPU
 
 #run juicer
 bash scripts/juicer.sh -g Nettle_female.asm.hic.hap1.p_ctg -s DpnII \
@@ -187,9 +187,9 @@ Memory Efficiency: 49.51% of 125.00 GB
 #SBATCH --time=5:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=15
-#SBATCH --account=def-gowens
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1__hic.21Mar2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_juicer_hic.21Mar2024.err
+#SBATCH --account=
+#SBATCH --output=
+#SBATCH --error=
 
 ### 3D-DNA pipeline after getting Hi-C contact merge_nodups.txt file ### 
 
@@ -207,15 +207,15 @@ echo ""
 module load StdEnv/2020 python/3.11.2 java/17.0.2 lastz/1.04.03
 #virtualenv 3ddna_env
 #pip install scipy numpy matplotlib #libraries required for 3d-dna 
-source /home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/3ddna_env/bin/activate
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/3d-dna #3D de novo assembly: version 180114
+source /home/~bin/3ddna_env/bin/activate
+export PATH=$PATH:/home/~bin/3d-dna #3D de novo assembly: version 180114
 
 
 #####################################
 ##### Variables / data ##############
 #####################################
-contig_fasta=/home/kaedeh/scratch/Nettle/HiC_hap1/references/*.fa
-merged_nodups=/home/kaedeh/scratch/Nettle/HiC_hap1/aligned/merged_nodups.txt
+contig_fasta=/home/Nettle/HiC_hap1/references/*.fa
+merged_nodups=/home/Nettle/HiC_hap1/aligned/merged_nodups.txt
 
 #run script; -r 0 runs only the first scaffolding, no polishing. 
 run-asm-pipeline.sh -m haploid -r 0 $contig_fasta $merged_nodups
@@ -233,11 +233,11 @@ echo "Finished job at `date`"
 ##### Convert .assembly to .fasta with R script by Moshutava and Eric ######
 
 #!/bin/bash
-#SBATCH --account=def-gowens
+#SBATCH --account=
 #SBATCH --time=1:00:00
 #SBATCH --mem=30Gb
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/asm_to_fasta_nettle_female.11Apr2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/asm_to_fasta_nettle_female.11Apr2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 module load r
 
@@ -257,11 +257,11 @@ Rscript asm_to_fasta_me.R Nettle_female.asm.hic.hap1.p_ctg.0.review2.assembly Ro
 
 #!/bin/bash
 #SBATCH --time=24:00:00
-#SBATCH --account=def-gowens
+#SBATCH --account=
 #SBATCH --ntasks=12
 #SBATCH --mem-per-cpu=20G
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_to_hap2_anchorwave_with_hap1genes.31Jul2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_to_hap2_anchorwave_with_hap1genes.31Jul2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 
 #----------- Anchorwave whole genome alignment from chromosome-level assembly data -----------#
@@ -271,8 +271,8 @@ Rscript asm_to_fasta_me.R Nettle_female.asm.hic.hap1.p_ctg.0.review2.assembly Ro
 # and the output can be tabulated and exported, visualized on R.
 
 mopdule load StdEnv/2023 minimap2/2.28
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/scripts
+export PATH=$PATH:/home/~bin/anchorwave/
+export PATH=$PATH:/home/~bin/anchorwave/scripts
 
 #0 Set variables
 Genome=Nettle_female
@@ -291,9 +291,9 @@ minimap2 -x splice -t 4 -k 12 -a -p 0.4 -N 20 \
 $Hap2 anchorwave_gff2seq_${Genome}_H1.cds.fasta > anchorwave_minimap2_${Genome}_H2.cds.sam
 
 #3 (Not necessary) visualize the alignment to assess synteny on R by transforming SAM file to Tabulated file 
-#perl /home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/scripts/alignmentToDotplot.pl \
+#perl /home/~bin/anchorwave/scripts/alignmentToDotplot.pl \
 #$Hap1_gene_anno_gff3 anchorwave_minimap2_${Genome}_H1.cds.sam > anchorwave_minimap2_${Genome}_H1.cds.tab
-#perl /home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/scripts/alignmentToDotplot.pl \
+#perl /home/~bin/anchorwave/scripts/alignmentToDotplot.pl \
 #$Hap1_gene_anno_gff3 anchorwave_minimap2_${Genome}_H2.cds.sam > anchorwave_minimap2_${Genome}_H2.cds.tab
 
 #4 genome alignment with relocation variation, chromosome fusion or whole genome duplication - proali
@@ -317,8 +317,8 @@ anchorwave proali \
 
 module load StdEnv/2020 python/2.7.18
 
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/scripts
+export PATH=$PATH:/home/~bin/anchorwave/
+export PATH=$PATH:/home/~bin/anchorwave/scripts
 
 python2 maf-convert.py tab anchorwave_proali_Nettle_female_Hap1_vs_Hap2.maf > anchorwave_proali_Nettle_female_Hap1_vs_Hap2.tab
 
@@ -423,7 +423,7 @@ python3 $PATH_TO_SYRI -c Nettle_female_DToL_primary_Round_5_reordered_H2_minimap
 
 module load samtools
 
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/Winnowmap/bin
+export PATH=$PATH:/home/~bin/Winnowmap/bin
 HIFI_reads=/home/kaedeh/scratch/Nettle/Pacbio_hifi/Nettle_female_Pacbio_hifi_Q30_filtered.fastq
 ONT_reads=/home/kaedeh/scratch/Nettle/HiC_hap1_hap2/references/Nettle_female_canu_correctedReads_10kb.fq
 genome_H1=/home/kaedeh/scratch/Nettle/HiC_hap1_hap2/references/round_5/Nettle_female_H1_Round_5_syri_input_genome.fa
@@ -502,13 +502,13 @@ Urtica_dioica_female_chr_02     40088164        43483608        -       -       
 #----- Finally, combine ONT reads with TGS GapCloser to see if we can close any gaps in the assembly ---------# 
 
 #!/bin/bash
-#SBATCH --account=rrg-rieseber-ac
+#SBATCH --account=
 #SBATCH --time=20:00:00
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=18
 #SBATCH --mem=250Gb
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/TGS_gapcloser_nettle_female_hap2_Round2.23Jul2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/TGS_gapcloser_nettle_female_hap2_Round2.23Jul2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 #0. before starting, check ONT reads yield and quality and filter as necessary
 #also the input ONT reads has to be in .fasta format so convert that. 
@@ -517,7 +517,7 @@ Urtica_dioica_female_chr_02     40088164        43483608        -       -       
 
 module load racon/1.5.0
 
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/TGS-GapCloser
+export PATH=$PATH:/home/~bin/TGS-GapCloser
 #TGS_READS_FILE=
 #tgsgapcloser --scaff SCAFF_FILE --reads TGS_READS_FILE --output OUT_PREFIX
 
