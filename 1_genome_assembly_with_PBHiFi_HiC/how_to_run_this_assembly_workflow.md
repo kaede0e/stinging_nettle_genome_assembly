@@ -1,4 +1,4 @@
-### HiFiasm + Hi-C genome assembly pipeline ###
+## HiFiasm + Hi-C genome assembly pipeline ##
 This page shows steps taken to with commandilne tools in chronological order;j pipeline for a chromosome-scale phased genome assembly of stinging nettle (_Urtica dioica_).
 To replicate this pipeline in your genome using your cluster, see the individual script separated by types of jobs/programs. I tried to explicitly label which scripts were used. 
 
@@ -111,6 +111,7 @@ echo "Finished job at `date`"
 
 #do this to run it as a pipeline based on Eric's script (https://github.com/ericgonzalezs/ASSEMBLIES/blob/main/Juicer)
 #haplotype 1 
+```
 ln -s /home/~bin/juicer/CPU/ scripts
 cd scripts/common
 wget https://hicfiles.tc4ga.com/public/juicer/juicer_tools.1.9.9_jcuda.0.8.jar
@@ -147,8 +148,9 @@ do
 name=$(echo $i | cut -d "." -f 1 )
 awk 'BEGIN{OFS="\t"}{print $1, $NF}'  $i > "$name"".chrom.sizes"
 done
-
+```
 #---- now run this script in a core with many CPUs ----------#
+```
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --time=1-00:00:00
@@ -186,9 +188,10 @@ Job Wall-clock time: 07:44:10
 Memory Utilized: 61.89 GB
 Memory Efficiency: 49.51% of 125.00 GB
 # -------------------------------------------------------------------------
-
+```
 
 #---- next we run the 3D-DNA pipeline to visualize and fix misassemblies ------------#
+```
 #!/bin/bash
 #SBATCH --time=5:00:00
 #SBATCH --mem=100G
@@ -234,10 +237,10 @@ echo "Done 3D-DNA pipeline scaffolding.  Use Juicebox to visualize and manually 
 # ---------------------------------------------------------------------
 
 echo "Finished job at `date`"
+```
 
-
-##### Convert .assembly to .fasta with R script by Moshutava and Eric ######
-
+#-------- Convert .assembly to .fasta with R script by Moshutava and Eric ---------#
+```
 #!/bin/bash
 #SBATCH --account=
 #SBATCH --time=1:00:00
@@ -250,6 +253,7 @@ module load r
 mkdir FASTA
 Rscript asm_to_fasta_me.R Nettle_female.asm.hic.hap1.p_ctg.0.review2.assembly Round_1 Nettle_female.asm.hic.hap1.p_ctg.fa FASTA
 
+```
 #----- Here, your assembly is almost ready. Use the chromosome-level assemblies to perform a crude gene annotation. (see my RNAseq based TransDecoder pipeline) -----# 
 
 
@@ -260,7 +264,7 @@ Rscript asm_to_fasta_me.R Nettle_female.asm.hic.hap1.p_ctg.0.review2.assembly Ro
 1) (after annotation) run anchorwave
 2) run minimap2 alignment + SyRI, check for those regions (using the output coordinates) on Hi-C map
 3) Visualize if long-reads map to breakpoints of SVs
-
+```
 #!/bin/bash
 #SBATCH --time=24:00:00
 #SBATCH --account=
@@ -314,8 +318,9 @@ anchorwave proali \
 -R 1 -Q 1 -t 9 \
 -o anchorwave_proali_${Genome}_Hap1_vs_Hap2.maf \
 -f anchorwave_proali_${Genome}_Hap1_vs_Hap2.f.maf > anchorwave_proali_log.txt
-
+```
 #5 convert .maf to plot table
+```
 #!/bin/bash
 #SBATCH --account=def-mtodesco
 #SBATCH --time=24:00:00
@@ -336,9 +341,10 @@ do
        grep -v "#" $i | awk -F "\t" -v OFS="\t" '{print $3, $3 + $4, $8, $8 + $9, 30, $7, $2, $10}' > "$name""_tab_fp.txt"
 
 done
-
+```
 
 #----- 2. To check SVs on Hi-C heatmap using precise coordinates (especially if the region doesn't fall between contigs and requires you to cut contigs for misassembly), run minimap2+SyRI ---------# 
+```
 cwd="."     # Change to working directory
 cd $cwd
 PATH_TO_SYRI="/home/khirabayashi/miniforge3/envs/syri_env/bin/syri" #Change the path to point to syri
@@ -415,11 +421,12 @@ python3 $PATH_TO_SYRI -c Nettle_female_DToL_primary_Round_5_reordered_H2_minimap
 
 ## Plot the syri.out using plotsr - also installed in the SyRI conda env.
 #plotsr --sr syri.out --genomes genomes.txt -o syri_plotsr_output_plot.png -S 0.5 -W 7 -H 10 -f 8
-
-## then from syri.out file, you can select for regions you want to check (eg. "INV") and copy those to Excel spreadsheet for record keeping. Go to Juicebox and check which orientations makes more sense.
+```
+Then from syri.out file, you can select for regions you want to check (eg. "INV") and copy those to Excel spreadsheet for record keeping. Go to Juicebox and check which orientations makes more sense.
 
 
 #----- 3. To check if SVs between haplotypes are real, visualize HIFI reads on IGV ---------# 
+```
 #SBATCH --time=1-00:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=24
@@ -487,6 +494,9 @@ done
 #6. prepare a bed file of inversion positions
 nano Nettle_female_H1_syriINV_chr02.bed
 cat syri.out | awk '{if ($11 == "INV"){print}}' | grep "Urtica_dioica_female_chr_02" | awk '{if ($3-$2 >= 10000){print}}' | cut -f -3
+```
+#output looks like: 
+```
 Urtica_dioica_female_chr_02     13675776        13687734
 Urtica_dioica_female_chr_02     19833948        19844872
 Urtica_dioica_female_chr_02     20209329        20227555
@@ -501,12 +511,13 @@ Urtica_dioica_female_chr_02     20209329        20227555        -       -       
 Urtica_dioica_female_chr_02     20228137        21550767        -       -       Urtica_dioica_female_chr_02     19476892        20954093  INV551   -       INV     -
 Urtica_dioica_female_chr_02     21721136        22012180        -       -       Urtica_dioica_female_chr_02     21254530        21466722  INV552   -       INV     -
 Urtica_dioica_female_chr_02     40088164        43483608        -       -       Urtica_dioica_female_chr_02     40601525        44371308  INV555   -       INV     -
+```
 
 #7. load the genome.fasta, then INV.bam and INV.bed on IGV. 
 
 
 #----- Finally, combine ONT reads with TGS GapCloser to see if we can close any gaps in the assembly ---------# 
-
+```
 #!/bin/bash
 #SBATCH --account=
 #SBATCH --time=20:00:00
@@ -529,6 +540,7 @@ export PATH=$PATH:/home/~bin/TGS-GapCloser
 
 #mkdir TGSgapclosing_hap1 #you have to start with a fresh new directory and run the script from here. 
 tgsgapcloser --scaff ../Round_2_hap2.reviewed.chr_assembled.fasta --reads ../Nettle_female_canu_correctedReads_30kb.fq --output ../Round_2_hap2_canu_corrected_ONT_30kbp_TGSgapcloser --ne --thread 16
+```
 
 #well.... I did this and run the program but it wasn't able to patch any gaps with the ONT reads I gave. 
 
