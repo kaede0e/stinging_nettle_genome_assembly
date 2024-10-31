@@ -1,4 +1,13 @@
 #!/bin/bash
+
+####### SyRI for visualization of SVs from minimap2 reasults #######
+
+#This was downloaded in salal using conda. 
+
+#conda create -n syri_env -c bioconda syri #installed to /home/khirabayashi/miniforge3/envs
+#conda deactivate # to exit from current conda env. 
+conda activate syri_env
+
 cwd="."     # Change to working directory
 cd $cwd
 PATH_TO_SYRI="/home/khirabayashi/miniforge3/envs/syri_env/bin/syri" #Change the path to point to syri
