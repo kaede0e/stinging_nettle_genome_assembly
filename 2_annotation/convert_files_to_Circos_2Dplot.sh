@@ -1,4 +1,4 @@
-#bin/bash 
+#!/bin/bash 
 #convert files to Circos format (see manuscript Figure 1 for which tracks)
 #some codes are written in R. 
 
