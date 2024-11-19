@@ -125,8 +125,20 @@ cd ../..
 mkdir references
 cd references/
 ln -s /home/Nettle/output/assembly/Nettle_female.asm.hic.hap1.p_ctg.fa Nettle_female.asm.hic.hap1.p_ctg.fa
+```
+Run BWA indexing in a job inside /references : 
+```
+#!/bin/bash
+#SBATCH --account=def-gowens
+#SBATCH --time=1:00:00
+#SBATCH --mem=30Gb
+
 module load bwa
-bwa index Nettle_female.asm.hic.hap1.p_ctg.fa #Run this in a job
+
+bwa index *.fna
+```
+once indexing is done, continue with /restriction_sites
+```
 cd ..
 mkdir restriction_sites 
 cd restriction_sites
@@ -149,7 +161,30 @@ name=$(echo $i | cut -d "." -f 1 )
 awk 'BEGIN{OFS="\t"}{print $1, $NF}'  $i > "$name"".chrom.sizes"
 done
 ```
-#---- now run this script in a core with many CPUs ----------#
+
+In the end, you want your directory structure to look like this:
+/home/~/bin/juicer
+	-- CPU/juicer.sh
+ 		/common
+   			-- juicer_tools.jar -> juicer_tools.1.1.9_jcuda.0.8.ja
+/scratch/HiC
+	-- scripts -> /home/~/bin/juicer/CPU
+ 	-- /references
+  		-- contig_assembly.fa -> ~/home/~/asm.fa
+    		-- contig_assembly.fa.bwt
+      		-- contig_assembly.fa.pac
+    		-- contig_assembly.fa.ann
+    		-- contig_assembly.fa.amb
+      		-- contig_assembly.fa.sa
+	-- /fastq
+ 		-- HiC_read_R1.fastq.gz -> ~/home/data/~/rawreads1.fq.gz
+   		-- HiC_read_R2.fastq.gz -> ~/home/data/~/rawreads2.fq.gz
+     	-- /restriction_sites 
+      		-- generate_positions.py (edited)
+		-- contig_assembly.DpnII.txt
+  		-- conting_assembly.chrom.sizes
+
+#---- now run this Juicer script in a core with many CPUs ----------#
 ```
 #!/bin/bash
 #SBATCH --nodes=1
@@ -515,6 +550,8 @@ Urtica_dioica_female_chr_02     40088164        43483608        -       -       
 
 #7. load the genome.fasta, then INV.bam and INV.bed on IGV. 
 
+#----- Note: if your genome is highly repetitive (eg. polycentric), it is worth runningn 3D-DNA pipeline with -q 0 option in the end to allow low mapping quality reads to be shown on Juicebox as a final misassembly check. WARNING: this would significantly fragment your contigs so you have less contiguity scores as a result. This allowed me to perform manual curation on the H1+H2 map directly and fixed lots of weird, unclear signals in H1 or H2 map alone. Most cases of switch errors could be caught in this process. If you have high coverage of Hi-C and high resolution in the H1+H2 map (significant chr interactions visible), do it. Otherwise, don't. ---------# 
+
 
 #----- Finally, combine ONT reads with TGS GapCloser to see if we can close any gaps in the assembly ---------# 
 ```
@@ -542,5 +579,4 @@ export PATH=$PATH:/home/~bin/TGS-GapCloser
 tgsgapcloser --scaff ../Round_2_hap2.reviewed.chr_assembled.fasta --reads ../Nettle_female_canu_correctedReads_30kb.fq --output ../Round_2_hap2_canu_corrected_ONT_30kbp_TGSgapcloser --ne --thread 16
 ```
 
-#well.... I did this and run the program but it wasn't able to patch any gaps with the ONT reads I gave. 
 
