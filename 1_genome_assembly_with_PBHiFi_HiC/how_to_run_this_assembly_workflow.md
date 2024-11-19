@@ -163,6 +163,7 @@ done
 ```
 
 In the end, you want your directory structure to look like this:
+```
 /home/~/bin/juicer
 	-- CPU/juicer.sh
  		/common
@@ -183,7 +184,7 @@ In the end, you want your directory structure to look like this:
       		-- generate_positions.py (edited)
 		-- contig_assembly.DpnII.txt
   		-- conting_assembly.chrom.sizes
-
+```
 #---- now run this Juicer script in a core with many CPUs ----------#
 ```
 #!/bin/bash
