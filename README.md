@@ -36,7 +36,7 @@ This assembly report consists of:
 
 
 For list of intermediate files generated during the above process in a table, see my_juicebox.assembly_files.txt.
-_also on the manuscript, I am referring to the different round number designations because I did not perform quality metric checks at every step on the way. I divided the Rounds of curation by distinctive steps with QC vakues available: Round 1 - visual Hi-C scaffolding with H1 and H2 and H1+H2 maps, Round 2 - attemp to incorporate ONT reads to fill the gaps, further curation with H1+H2 map and visually inspect, Round 3 - extensive manual curation using minimap2+SyRI coordinates to check INVs specificially, as well as checking if long-reads span breakpoints._
+_also on the manuscript, I am referring to the different round number designations because I did not perform quality metric checks at every step on the way. I divided the Rounds of curation by distinctive steps with QC vakues available: Round 1 - visual Hi-C scaffolding with H1 and H2 and H1+H2 maps, Round 2 - attemp to incorporate ONT reads to fill the gaps, further curation with H1+H2 map and visually inspect, Round 3 - extensive manual curation using minimap2+SyRI coordinates to check INVs specificially, as well as checking if long-reads span breakpoints, Round 4 - final manual curation; all the ambiguous sections (with no Hi-C interactions within chromosomes) were cut out and moved ot debris. Then using -q 0 on 3d-dna pipeline command, allowing mapping quality 0 reads to be visualized on the H1+H2 genome, corrected switch errors mainly to make the Hi-C map look smoother. Used minimap2+SyRI again to check exact INV coordinates._
 
 
 ## _De novo_ annotation pipeline 
