@@ -2,10 +2,10 @@
 #SBATCH --time=5-00:00:00
 #SBATCH --mem=125G
 #SBATCH --nodes=1
-#SBATCH --account=def-gowens
+#SBATCH --account=
 #SBATCH --ntasks-per-node=32
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_juicer_hifiasm_4_hap1.11May2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_juicer_hifiasm_4_hap1.11May2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 ## Juicer and 3D-DNA pipelne for genome scaffolding ##
 
