@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --time=2-00:00:00
-#SBATCH --account=rrg-rieseber-ac
+#SBATCH --account=
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem-per-cpu=6000M
@@ -11,15 +11,15 @@
 # you're suggested to work in a new screen so that all softwares are properly loaded.
 module --force purge
 module load StdEnv/2020 gcc python augustus hmmer blast+ metaeuk prodigal r
-source /home/kaedeh/projects/rrg-gowens/kaedeh/Lingonberry/scripts/busco_env/bin/activate
+source /home/~/scripts/busco_env/bin/activate
 
-export AUGUSTUS_CONFIG_PATH=/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/busco_env/augustus_config
+export AUGUSTUS_CONFIG_PATH=/home/~/bin/busco_env/augustus_config
 
 # Run BUSCO job:
 busco --offline -f -r \
 --in /home/kaedeh/scratch/Nettle/HiC_hap1_hap2/references/round_8/FASTA/Nettle_female_H1_Round_8_genome.fa \
 --out Nettle_Round8_H1_BUSCO_output_with_augustus \
---lineage_dataset /home/kaedeh/projects/def-gowens/kaedeh/Nettle/scripts/busco_downloads/lineages/eudicots_odb10 \
+--lineage_dataset /home/~/busco_downloads/lineages/eudicots_odb10 \
 --mode genome \
 --augustus \
 --cpu ${SLURM_CPUS_PER_TASK-1}
