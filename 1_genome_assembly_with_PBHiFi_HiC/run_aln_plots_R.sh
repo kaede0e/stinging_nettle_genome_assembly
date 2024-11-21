@@ -2,9 +2,9 @@
 #SBATCH --time=5:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=15
-#SBATCH --account=rrg-rieseber-ac
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_hap2_aln_plotR.24May2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_hap2_aln_plotR.24May2024.err
+#SBATCH --account=
+#SBATCH --output=
+#SBATCH --error=
 
 module load r/4.4
 
