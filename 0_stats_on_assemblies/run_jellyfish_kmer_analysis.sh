@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --time=5:00:00
 #SBATCH --mem=192000M
-#SBATCH --account=def-gowens
+#SBATCH --account=
 #SBATCH --cpus-per-task=48
 #SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_male_kmer_jellyfish.02May2024.out
 #SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_male_kmer_jellyfish.02May2024.err
@@ -14,7 +14,7 @@
 
 fastq_gz=/home/kaedeh/scratch/Nettle/Pacbio_hifi/Nettle_male_Pacbio_hifi.fastq.gz
 zcat $fastq_gz > Nettle_male_Pacbio_hifi.fastq
-export PATH=PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/jellyfish-2.3.1/jellyfish
+export PATH=PATH:/home/~/bin/jellyfish-2.3.1/jellyfish
 
 #####################################
 ### Execution of programs ###########
