@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --time=3-00:00:00
-#SBATCH --account=rrg-rieseber-ac
+#SBATCH --account=
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem-per-cpu=12000M
-#SBATCH --output=/home/kaedeh/scratch/Lingonberry/log_file/Nettle_female_hap1.gene.anno.pipeline.29Jul2024.out
-#SBATCH --error=/home/kaedeh/scratch/Lingonberry/log_file/Nettle_female_hap1.gene.anno.pipeline.29Jul2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 # ---------------------------------------------------------------------
 echo "Current working directory: `pwd`"
@@ -31,9 +31,9 @@ echo ""
 #####################################
 
 export PATH=$PATH:/home/kaedeh/scratch/Nettle/annotation
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/Nettle/raw_data/reference_data/RNAseq #store my Illumina reads here
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/TransDecoder/TransDecoder-TransDecoder-v5.5.0/
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/TransDecoder/TransDecoder-TransDecoder-v5.5.0/util/ #this is not working so you need full path to invoke scripts
+export PATH=$PATH:/home/~/raw_data/reference_data/RNAseq #store my Illumina reads here
+export PATH=$PATH:/home/~/bin/TransDecoder/TransDecoder-TransDecoder-v5.5.0/
+export PATH=$PATH:/home/~/bin/TransDecoder/TransDecoder-TransDecoder-v5.5.0/util/ #this is not working so you need full path to invoke scripts
 module load StdEnv/2020 gcc/9.3.0 blast+/2.13.0
 module load hisat2 stringtie samtools bedtools
 
@@ -41,8 +41,8 @@ module load hisat2 stringtie samtools bedtools
 
 #### 0. QC RNA reads & check all files are there ########
 # Make sure to run fastqc/0.11.9 or fastp before using the data.
-# Make sure to copy one final draft genome to working directory /home/kaedeh/scratch/Lingonberry/output/gene_annotation_pipeline in 'Lingonberry_RedCandy_*asm.fasta' format.
-# Make sure to have all RNAseq .fastq files (paired end, stranded) in /home/kaedeh/projects/rrg-gowens/kaedeh/Lingonberry/raw_fastq_files/*_1.fastq or *_2.fastq, matching prefix for paired reads.
+# Make sure to copy one final draft genome to working directory 
+# Make sure to have all RNAseq .fastq files (paired end, stranded) in ~/raw_fastq_files/*_1.fastq or *_2.fastq, matching prefix for paired reads.
 
 # ---------------------------------------------------------------------
 
