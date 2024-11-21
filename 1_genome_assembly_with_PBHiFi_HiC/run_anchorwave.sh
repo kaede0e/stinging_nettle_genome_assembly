@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --time=24:00:00
-#SBATCH --account=rrg-rieseber-ac
+#SBATCH --account=
 #SBATCH --ntasks=9
 #SBATCH --mem-per-cpu=50G
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_to_hap2_anchorwave_with_hap1genes.01Aug2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_to_hap2_anchorwave_with_hap1genes.01Aug2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 
 #----------- Anchorwave whole genome alignment from chromosome-level assembly data -----------#
@@ -14,8 +14,8 @@
 # and the output can be tabulated and exported, visualized on R.
 
 module load StdEnv/2023 minimap2/2.28
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/scripts
+export PATH=$PATH:/home/~/bin/anchorwave/
+export PATH=$PATH:/home/~/bin/anchorwave/scripts
 
 #0 Set variables
 Genome=Nettle_female
@@ -36,9 +36,9 @@ Hap2=/home/kaedeh/scratch/Nettle/HiC_hap2/3d_dna_pipeline/FASTA/Round_2_hap2.rev
 #$Hap2 anchorwave_gff2seq_${Genome}_H1.cds.fasta > anchorwave_minimap2_${Genome}_H2.cds.sam
 
 #3 visualize the alignment to assess synteny on R by transforming SAM file to Tabulated file
-#perl /home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/scripts/alignmentToDotplot.pl \
+#perl /home/~/bin/anchorwave/scripts/alignmentToDotplot.pl \
 #$Hap1_gene_anno_gff3 anchorwave_minimap2_${Genome}_H1.cds.sam > anchorwave_minimap2_${Genome}_H1.cds.tab
-#perl /home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/anchorwave/scripts/alignmentToDotplot.pl \
+#perl /home/~/bin/anchorwave/scripts/alignmentToDotplot.pl \
 #$Hap1_gene_anno_gff3 anchorwave_minimap2_${Genome}_H2.cds.sam > anchorwave_minimap2_${Genome}_H2.cds.tab
 
 #4 genome alignment with relocation variation, chromosome fusion or whole genome duplication (proali)
