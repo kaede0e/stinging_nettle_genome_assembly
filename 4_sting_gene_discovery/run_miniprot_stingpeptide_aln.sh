@@ -1,16 +1,16 @@
 #!/bin/bash
 #SBATCH --time=1:00:00
-#SBATCH --account=rrg-rieseber-ac
+#SBATCH --account=
 #SBATCH --ntasks=1
 #SBATCH --mem-per-cpu=6000M
 #SBATCH --cpus-per-task=16
 #SBATCH --job-name=run_miniprot_stingpeptide_aln
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle.stingpeptide_discovery.miniprot.22Oct2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle.stingpeptide_discovery.miniprot.22Oct2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 #----------------------------------------------
 ###### using miniprot and tblastn to find stinging peotides in nettle genome #########
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/miniprot
+export PATH=$PATH:/home/~/bin/miniprot
 #----------------------------------------------
 
 miniprot -t16 -d Nettle_female_H2_Round_5_chrname_reordered_genome.mpi Nettle_female_H2_Round_5_chrname_reordered_genome.fa
