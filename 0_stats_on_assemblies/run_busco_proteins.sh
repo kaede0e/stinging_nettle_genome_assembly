@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --time=12:00:00
-#SBATCH --account=def-mtodesco
+#SBATCH --account=
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem-per-cpu=6000M
@@ -11,13 +11,13 @@
 # you're suggested to work in a new screen so that all softwares are properly loaded.
 module --force purge
 module load StdEnv/2020 gcc python augustus hmmer blast+ metaeuk prodigal r
-source /home/kaedeh/projects/def-gowens/kaedeh/Nettle/scripts/busco_env/bin/activate
+source /home/~/scripts/busco_env/bin/activate
 
 # Run BUSCO job:
 busco --offline \
 --in /home/kaedeh/scratch/Nettle/annotation/final_annotation_files/Nettle_female_hap1_genes_anno.faa \
 --out Nettle_female_Round2.hap1.TransDecoder_BUSCO_output \
---lineage_dataset /home/kaedeh/projects/def-gowens/kaedeh/Nettle/scripts/busco_downloads/lineages/eudicots_odb10 \
+--lineage_dataset /home/~/busco_downloads/lineages/eudicots_odb10 \
 --mode proteins \
 --cpu ${SLURM_CPUS_PER_TASK-1}
 
