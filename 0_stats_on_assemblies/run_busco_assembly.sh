@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --time=20:00:00
-#SBATCH --account=rrg-rieseber-ac
+#SBATCH --account=
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem-per-cpu=6000M
@@ -11,13 +11,13 @@
 # you're suggested to work in a new screen so that all softwares are properly loaded.
 module --force purge
 module load StdEnv/2020 gcc python augustus hmmer blast+ metaeuk prodigal r
-source /home/kaedeh/projects/rrg-gowens/kaedeh/Lingonberry/scripts/busco_env/bin/activate
+source /home/~/scripts/busco_env/bin/activate
 
 # Run BUSCO job:
 busco --offline -f \
 --in /home/kaedeh/scratch/Nettle/HiC_hap2/3d_dna_pipeline/FASTA/Round_3_hap2.reviewed.chr_assembled.fasta \
 --out Nettle_Round_3_hap2_chr_assembled.fasta_BUSCO_output \
---lineage_dataset /home/kaedeh/projects/def-gowens/kaedeh/Nettle/scripts/busco_downloads/lineages/eudicots_odb10 \
+--lineage_dataset /home~/busco_downloads/lineages/eudicots_odb10 \
 --mode genome \
 --cpu ${SLURM_CPUS_PER_TASK-1}
 
