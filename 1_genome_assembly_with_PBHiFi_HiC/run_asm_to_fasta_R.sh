@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --account=def-gowens
+#SBATCH --account=
 #SBATCH --time=1:00:00
 #SBATCH --mem=30Gb
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/asm_to_fasta_nettle_female.06Aug2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/asm_to_fasta_nettle_female.06Aug2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 module load r/4.3
 
