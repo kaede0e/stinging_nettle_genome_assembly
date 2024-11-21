@@ -2,9 +2,9 @@
 #SBATCH --time=1-00:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=24
-#SBATCH --account=def-mtodesco
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_ONT_HIFI_winnowmap_aln_samtobam.13Sep2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_ONT_HIFI_winnowmap_aln_samtobam.13Sep2024.err
+#SBATCH --account=
+#SBATCH --output=
+#SBATCH --error=
 
 ### quality check the Juicer+3ddna pipeline output by aligning two haplotypes ###
 
@@ -21,7 +21,7 @@ echo ""
 
 module load samtools
 
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/Winnowmap/bin
+export PATH=$PATH:/home/~/bin/Winnowmap/bin
 HIFI_reads=/home/kaedeh/scratch/Nettle/Pacbio_hifi/Nettle_female_Pacbio_hifi_Q30_filtered.fastq
 ONT_reads=/home/kaedeh/scratch/Nettle/HiC_hap1_hap2/references/Nettle_female_canu_correctedReads_10kb.fq
 genome_H1=/home/kaedeh/scratch/Nettle/HiC_hap1_hap2/references/round_5/Nettle_female_H1_Round_5_syri_input_genome.fa
