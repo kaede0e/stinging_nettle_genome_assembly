@@ -129,7 +129,7 @@ ln -s /home/Nettle/output/assembly/Nettle_female.asm.hic.hap1.p_ctg.fa Nettle_fe
 Run BWA indexing in a job inside /references : 
 ```
 #!/bin/bash
-#SBATCH --account=def-gowens
+#SBATCH --account=
 #SBATCH --time=1:00:00
 #SBATCH --mem=30Gb
 
@@ -466,9 +466,9 @@ Then from syri.out file, you can select for regions you want to check (eg. "INV"
 #SBATCH --time=1-00:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=24
-#SBATCH --account=def-mtodesco
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_ONT_HIFI_winnowmap_aln_samtobam.13Sep2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_ONT_HIFI_winnowmap_aln_samtobam.13Sep2024.err
+#SBATCH --account=
+#SBATCH --output=
+#SBATCH --error=
 
 module load samtools
 
