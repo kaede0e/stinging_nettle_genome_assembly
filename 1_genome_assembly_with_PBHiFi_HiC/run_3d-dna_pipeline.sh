@@ -2,9 +2,9 @@
 #SBATCH --time=5-00:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=15
-#SBATCH --account=def-gowens
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_3ddna_hifiasm_4_hap1.13May2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_3ddna_hifiasm_4_hap1.13May2024.err
+#SBATCH --account=
+#SBATCH --output=
+#SBATCH --error=
 
 ### 3D-DNA pipeline after getting Hi-C contact merge_nodups.txt file ###
 
@@ -22,8 +22,8 @@ echo ""
 module load StdEnv/2020 python/3.11.2 java/17.0.2 lastz/1.04.03
 #virtualenv 3ddna_env
 #pip install scipy numpy matplotlib #libraries required for 3d-dna
-source /home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/3ddna_env/bin/activate
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/3d-dna #3D de novo assembly: version 180114
+source /home/k~/bin/3ddna_env/bin/activate
+export PATH=$PATH:/home/~/bin/3d-dna #3D de novo assembly: version 180114
 
 #####################################
 ##### Variables / data ##############
