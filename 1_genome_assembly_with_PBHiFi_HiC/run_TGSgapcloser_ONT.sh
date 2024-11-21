@@ -1,10 +1,10 @@
 #!/bin/bash
-#SBATCH --account=rrg-rieseber-ac
+#SBATCH --account=
 #SBATCH --time=10:00:00
 #SBATCH --cpus-per-task=17
 #SBATCH --mem=30Gb
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/TGS_gapcloser_nettle_female_hap1_Round2.22Jul2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/TGS_gapcloser_nettle_female_hap1_Round2.22Jul2024.err
+#SBATCH --output=
+#SBATCH --error=
 
 #0. before starting, check ONT reads yield and quality and filter as necessary
 #also the input ONT reads has to be in .fasta format so convert that.
@@ -15,7 +15,7 @@ module load StdEnv/2023 bbmap/39.06
 
 module load racon/1.5.0
 
-export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/TGS-GapCloser
+export PATH=$PATH:/home/~/bin/TGS-GapCloser
 #TGS_READS_FILE=
 #tgsgapcloser --scaff SCAFF_FILE --reads TGS_READS_FILE --output OUT_PREFIX
 tgsgapcloser  \
