@@ -2,7 +2,7 @@
 #SBATCH --time=5:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=15
-#SBATCH --account=def-gowens
+#SBATCH --account=
 #SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_hap2_minimap2_aln.23May2024.out
 #SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1_hap2_minimap2_aln.23May2024.err
 
