@@ -3,8 +3,8 @@
 #SBATCH --mem=192000M
 #SBATCH --account=
 #SBATCH --cpus-per-task=48
-#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_male_kmer_jellyfish.02May2024.out
-#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_male_kmer_jellyfish.02May2024.err
+#SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_kmer_jellyfish.02May2024.out
+#SBATCH --error=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_kmer_jellyfish.02May2024.err
 
 ### kmer plot with jellyfish ###
 
