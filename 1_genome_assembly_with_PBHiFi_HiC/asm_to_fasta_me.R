@@ -1,4 +1,16 @@
-#this script is a modification from a Mojtaba script
+#==============================================================================
+# DESCRIPTION:    This script generates a FASTA file from a reviewed Juicer assembly file and the original FASTA file.  
+#                 It supports the use of H1 and H2 FASTA sequences within the same FASTA and assembly files.
+# AUTHOR:         Mojtaba Jahani (mojtaba.jahani@hotmail.com)   
+# VERSION:        2.0
+# USAGE:          ./ASM_TO_FASTA_ME.R file.assembly PREFIX fasta.fasta savedir
+#==============================================================================
+# HISTORY:
+# 2022-08-03 - Mojtaba Jahani- Initial version
+# 2024-04-10 - Eric González Segovia - Contributor modifications: Avoid duplications of chromosomes when correcting switch errors between H1 and H2. 
+#              Ensure the correct alphabet is used when writing the FASTA file, and include a string of Ns between the scaffolded contigs
+#==============================================================================
+
 library(tidyverse)
 library(tidysq)
 library(data.table)
