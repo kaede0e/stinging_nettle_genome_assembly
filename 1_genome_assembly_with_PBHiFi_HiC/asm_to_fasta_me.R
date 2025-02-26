@@ -130,7 +130,7 @@ HAP12_assembly %>%
             select(filter(HAP12_assembly,grepl("^>",V1)),fragment_ID = V1,original_order = V2, size= V3),
             by=c("order"="original_order")) %>%
   mutate(fragment_ID = gsub(">","",fragment_ID)) %>%
-  mutate(HAP = ifelse(grepl("h1",fragment_ID),"H1","H2")) %>%
+  mutate(HAP = ifelse(grepl("H1",fragment_ID),"H1","H2")) %>%
   filter(grepl("fragment", fragment_ID))  %>%
   filter(!grepl("debris",  fragment_ID))  -> mid_data2
 
@@ -148,7 +148,7 @@ HAP12_assembly %>%
             select(filter(HAP12_assembly,grepl("^>",V1)),fragment_ID = V1,original_order = V2),
             by=c("order"="original_order")) %>%
   mutate(fragment_ID = gsub(">","",fragment_ID)) %>%
-  mutate(HAP = ifelse(grepl("h1",fragment_ID),"H1","H2")) %>%
+  mutate(HAP = ifelse(grepl("H1",fragment_ID),"H1","H2")) %>%
   filter(grepl("debris", fragment_ID)) %>%
    mutate(Chromosome = paste0(HAP, "_HiC_scaffold_", CHR)) %>%
   mutate(orientation = ifelse(order_sign >= 0, "F", "R")) %>%
