@@ -1,4 +1,4 @@
-## HiFiasm + Hi-C genome assembly pipeline ##
+## HiFiasm + Hi-C genome assembly pipeline using 3ddna (Apr 2024) ##
 This page shows steps taken to with commandilne tools in chronological order;j pipeline for a chromosome-scale phased genome assembly of stinging nettle (_Urtica dioica_).
 To replicate this pipeline in your genome using your cluster, see the individual script separated by types of jobs/programs. I tried to explicitly label which scripts were used. 
 
