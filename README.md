@@ -1,16 +1,24 @@
 # Stinging nettle genome assembly
-Codes/pipeline used in genome assembly report on _Urtica dioica_ ssp. _dioica_ (stinging nettle): https://www.mdpi.com/2223-7747/14/1/124
+Codes/pipeline used in genome assembly report on _Urtica dioica_ ssp. _dioica_ (stinging nettle) female clone: https://www.mdpi.com/2223-7747/14/1/124
+Codes/pipeline used in genome assembly report on _Urtica dioica_ ssp. _dioica_ (stinging nettle) male F1: manuscript in prep
 
-This assembly report consists of: 
+The female assembly report consists of: 
 - _De novo_ genome assembly with PacBio HiFi reads + Hi-C
 - Gene annotation with BRAKER3 
 - Repeat annotation with EDTA (TEs) and RepeatOBserver (telomeric sequences, centromeric repeats)
 - Describe polycentric behaviour of nettle chromosomes
 - Describe genes/proteins that are potentially responsible for stinging hairs
-- Describe fibre synthesis genes presence
-- Describe basic phylogenetics with related taxa in Urticaceae family. 
+- Describe basic phylogenetics with related taxa in Urticaceae family.
 
-## _De novo_ assembly pipeline (exact steps I've taken)
+The male assembly report consists of: 
+- _De novo_ genome assembly with PacBio HiFi reads + Hi-C using YaHS for scaffolding assistance
+- Gene annotation with BRAKER3 
+- Repeat annotation with EDTA (TEs) and RepeatOBserver (telomeric sequences, centromeric repeats)
+- Describe polycentric behaviour of nettle chromosomes
+- Describe genes/proteins that are potentially responsible for stinging hairs
+
+
+## _De novo_ assembly pipeline (exact steps I've taken) for female clone
 1) Filter HiFi reads by Q20 [fastq.filter](https://github.com/LUMC/fastq-filter)
 2) Run [Hififasm](https://hifiasm.readthedocs.io/en/latest/) with HiFi + Hi-C
 3) Run [Juicer](https://github.com/aidenlab/juicer) to produce .hic and .assembly file - works as a matrix for Hi-C reads to then map onto. 
@@ -42,6 +50,24 @@ This assembly report consists of:
 For list of intermediate files generated during the above process in a table, see my_juicebox.assembly_files.txt.
 _also on the manuscript, I am referring to the different round number designations because I did not perform quality metric checks at every step on the way. I divided the Rounds of curation by distinctive steps with QC vakues available: Round 1 - visual Hi-C scaffolding with H1 and H2 and H1+H2 maps, Round 2 - attemp to incorporate ONT reads to fill the gaps, further curation with H1+H2 map and visually inspect, Round 3 - extensive manual curation using minimap2+SyRI coordinates to check INVs specificially, as well as checking if long-reads span breakpoints, Round 4 - final manual curation; using -q 0 on 3d-dna pipeline command, allowing mapping quality 0 reads to be visualized on the H1+H2 genome, corrected switch errors mainly to make the Hi-C map look smoother. Used minimap2+SyRI again to check exact INV coordinates only and made all change in H1+H2 map._
 
+## _De novo_ assembly pipeline (exact steps I've taken) for male F1
+1) Filter HiFi reads by Q20 [fastq.filter](https://github.com/LUMC/fastq-filter)
+2) Run [Hififasm](https://hifiasm.readthedocs.io/en/latest/) with HiFi + Hi-C
+3) Run [Juicer](https://github.com/aidenlab/juicer) to create Hi-C matrix file describing Hi-C reads alignment to the assembly --> merged_nodups.txt.
+4) Filter merged_nodups.txt by mapping quality >0 and format to a .bed file that contains columns 1: contig name from hifiasm, 2: start position, 3: end position, 4: aligned Hi-C read ID/1 or 2 describing forward or reverse read, 5: mapping quality of aligned read --> merged_nodups_for_yahs.bed
+5) Use [YaHS](https://github.com/c-zhou/yahs) to de novo scaffold the contig assembly.
+6) Use YaHS recommended codes (juicer pre) to convert output to .hic and .assembly file for viewing in Juicebox. 
+7) Open the output in Juicebox, manually fix contigs & assign chromosomes - see https://aidenlab.org/assembly/manual_180322.pdf for details
+8) Repeat 3-5 on each haplotype separately - Round_1_H1.fa, Round_1_H2.fa
+9) Combine H1 and H2 and repeat 3 - H1_H2.fa
+10) Format merged_nodups.txt with mapping quality 0 reads to .bed file, similar to step 4 --> merged_nodups_for_yahs_mappingquality0.bed
+11) Used YaHS again to scaffold and map Hi-C reads to H1+H2. --> this did a terrible job of scaffolding possibly because it misinterpreted the chromsome boundaries when H1 and H2 are combined? so I did not use this.
+12) Go back to step 9. Use [3d-dna_pipeline](https://github.com/aidenlab/3d-dna) to map Hi-C reads to H1_H2.fa assembly with -q 0 flag, allowing mapping quality 0 reads to be visible
+13) Manually fix misassemblies and clean the genome by using Juicebox on the Hi-C map where the Hi-C reads are aligned to H1 and H2 simultaneously. Conver to fasta file of H1 and H2 - Round_2_H1.fa, Round_2_H2.fa
+14) Run [purge_dups](https://github.com/dfguan/purge_dups), check threshold values with coverage plot, and make sure it's not over-purged by checking BUSCO. --> Round_2_H1_purged.fa, Round_2_H2_purged.fa
+15) Repeat 3-8 on again on purged genomes, for H1 and H2 separately. Round_3_H1_purged.fa, Round_3_H2_purged.fa
+16) Align H1 to H2 with minimap2 and run SyRI (reorient chromosomes as necessary) to visualize significant SVs between haplotypes, and check their validity on Hi-C heatmap made at the end of step 13.
+17) Align male H1 and H2 to the female assembly and rename chromosome designation to match female. --> Nettle_male_H1_Round_3_genome.fa, Nettle_male_H2_Round_3_genome.fa
 
 ## _De novo_ annotation pipeline 
 1) Softmask repetitive regions with [RepeatDetector](https://github.com/nextgenusfs/redmask)
@@ -55,8 +81,9 @@ _also on the manuscript, I am referring to the different round number designatio
 - Compare syntenic relationship with Morus genome, that has previously shown polycentric behaviour in an experiment
 - Compare synteny in Urticaceae family with [GENESPACE](https://github.com/jtlovell/GENESPACE)
 
-
 ## Describe genes/proteins that are potentially responsible for stinging hairs
 - try search the protein sequence against full genome with [miniprot](https://github.com/lh3/miniprot)
+- look at the gene annotation file .gtf and see if any of those peptides were annotated as a transcript
+
 
 
