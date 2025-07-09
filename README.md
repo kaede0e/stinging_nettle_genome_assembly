@@ -1,5 +1,6 @@
 # Stinging nettle genome assembly
 Codes/pipeline used in genome assembly report on _Urtica dioica_ ssp. _dioica_ (stinging nettle) female clone: https://www.mdpi.com/2223-7747/14/1/124
+
 Codes/pipeline used in genome assembly report on _Urtica dioica_ ssp. _dioica_ (stinging nettle) male F1: manuscript in prep
 
 The female assembly report consists of: 
