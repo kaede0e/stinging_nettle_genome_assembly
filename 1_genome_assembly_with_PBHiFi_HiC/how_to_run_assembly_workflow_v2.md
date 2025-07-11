@@ -171,7 +171,7 @@ done
 In the end, you want your directory structure to look like this:
 ```
 /home/~/bin/juicer
-	-- CPU/juicer.sh
+	-- CPU/juicer.sh #<- Edit this script so that the directory is not 'Aidenlab' but './'
  		/common
    			-- juicer_tools.jar -> juicer_tools.1.1.9_jcuda.0.8.ja
 /scratch/HiC
