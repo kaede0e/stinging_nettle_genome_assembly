@@ -31,15 +31,6 @@ samtools view -H Urtica_QC_m84074_230923_140523_s2.hifi_reads.bam
 ```
 #output: 
 
-#nettle_f
-```
-@HD     VN:1.6  SO:unknown      pb:5.0.0
-@RG     ID:e50f14c1/70--70      PL:PACBIO       DS:READTYPE=CCS;Ipd:Frames=ip;PulseWidth:Frames=pw;BINDINGKIT=102-739-100;SEQUENCINGKIT=102-118-800;BASECALLERVERSION=5.0;FRAMERATEHZ=100.000000;BarcodeFile=metadata/m84074_230923_140523_s2.barcodes.fasta;BarcodeHash=4ce24eed41885057053eb1865e933bdd;BarcodeCount=96;BarcodeMode=Symmetric;BarcodeQuality=Score        LB:FPAC230363934-1A     PU:m84074_230923_140523_s2      SM:Bio Sample 71        PM:REVIO        BC:GACGTGTATGTGTGAG CM:R/P1-C1/5.0-25M
-@PG     ID:ccs  PN:ccs  VN:7.0.0 (commit v7.0.0)        DS:Generate circular consensus sequences (ccs) from subreads.       CL:/opt/pacbio/tag-ccs-current/bin/ccs --streamed --log-level INFO --stderr-json-log --kestrel-files-layout --movie-name m84074_230923_140523_s2 --log-file metadata/m84074_230923_140523_s2.ccs.log --min-rq 0.9 --non-hifi-prefix fail --knrt-ada --pbdc-model /opt/pacbio/tag-ccs-current/bin/../models/revio_v1.onnx --alarms metadata/m84074_230923_140523_s2.ccs.alarms.json
-@PG     ID:lima VN:2.7.1 (commit v2.7.1-1-gf067520)     CL:/opt/pacbio/tag-lima-current/bin/lima --movie-name m84074_230923_140523_s2 --kestrel-files-layout --quality hifi --output-missing-pairs --shared-prefix --hifi-preset SYMMETRIC-ADAPTERS --store-unbarcoded --split-named --reuse-source-uuid --reuse-biosample-uuids --stderr-json-log --alarms metadata/m84074_230923_140523_s2.hifi_reads.lima.alarms.json --log-file metadata/m84074_230923_140523_s2.hifi_reads.lima.log pb_formats/m84074_230923_140523_s2.hifi_reads.consensusreadset.primrose.xml metadata/m84074_230923_140523_s2.barcodes.fasta hifi_reads/m84074_230923_140523_s2.hifi_reads.demux.bam
-@PG     ID:primrose     VN:1.4.0 (commit v1.4.0)        CL:/opt/pacbio/tag-primrose-current/bin/primrose --movie-name m84074_230923_140523_s2 --kestrel-files-layout --quality hifi --reuse-source-uuid --stderr-json-log --log-file metadata/m84074_230923_140523_s2.hifi_reads.primrose.log --alarms metadata/m84074_230923_140523_s2.hifi_reads.primrose.alarms.json
-```
-
 #nettle_m
 ```
 @HD     VN:1.6  SO:coordinate   pb:5.0.0
