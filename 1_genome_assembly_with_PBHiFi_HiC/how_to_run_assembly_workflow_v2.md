@@ -111,8 +111,10 @@ echo "Finished job at `date`"
 ```
 ln -s /home/~bin/juicer/CPU/ scripts
 cd scripts/common
-wget https://hicfiles.tc4ga.com/public/juicer/juicer_tools.1.9.9_jcuda.0.8.jar
+wget https://hicfiles.tc4ga.com/public/juicer/juicer_tools.1.9.9_jcuda.0.8.jar #newer versions don't seem to work... 
 ln -s juicer_tools.1.9.9_jcuda.0.8.jar  juicer_tools.jar
+cd ../
+nano scripts/juicer.sh #change juiceDir="Aidenlabs" to juiceDir=$(pwd) #very important!!! 
 cd ../..
 mkdir fastq
 cd fastq
