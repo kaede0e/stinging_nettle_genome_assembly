@@ -271,6 +271,7 @@ Now we run YaHS in the following steps:
 Note: This works well if you get an interactive job since the whole steps run relatively fast <3h of watching it do the job, even if you have a medium-sized genome. 
 
 ```
+cd /where_you_started_run_juicer.sh/
 mkdir yahs
 cd yahs
 ```
