@@ -280,7 +280,7 @@ Now we run YaHS like this:
 
 #---------- This is a scaffolding program that takes Juicer merge_no_dup in bed format --------#
 
-module load  StdEnv/2023  gcc/12.3  samtools/1.20
+module load  StdEnv/2023  gcc/12.3  samtools/1.20 python/3.11.5
 export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/yahs
 
 #1. give indexed genome
@@ -300,11 +300,17 @@ Now we going to create our hic and assembly file to observe it in Juicebox
 #SBATCH --ntasks-per-node=64
 #SBATCH --mem=248G
 
-module load StdEnv/2020 python/3.11.2 java/17.0.2 lastz/1.04.03
+module load  StdEnv/2023  gcc/12.3  samtools/1.20 python/3.11.5
+export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/yahs
 
-/home/egonza02/scratch/SOFTWARE/YAHS/yahs/juicer pre -a -o out_JBAT yahs.out.bin yahs.out_scaffolds_final.agp Harg2202_HIC_oldhifiasm.hic.hap1.fasta.fai >out_JBAT.log 2>&1
+#3. run juicre pre command on yahs to convert yahs output to .assembly and .hic for Juicebox manual curation.
+juicer pre -a -o out_JBAT yahs.out.bin yahs.out_scaffolds_final.agp ${input_refgenome}.fai >out_JBAT.log 2>&1
+mv out_JBAT.assembly ${refgenome_name}.out_JBAT.assembly
 
-(java -jar -Xmx240G /home/egonza02/scratch/ASSEMBLIES/SCAFFOLDING/CPU_MODE/JUICER_NEW_FASTAS/ICGS/Harg2202_HIC_oldhifiasm.hic.hap1/aligned/Create_output_for_Yahs/RUN_JUICERAGAIN/scripts/common/juicer_tools.1.9.9_jcuda.0.8.jar pre out_JBAT.txt out_JBAT.hic.part <(cat out_JBAT.log  | grep PRE_C_SIZE | awk '{print $2" "$3}')) && (mv out_JBAT.hic.part out_JBAT.hic)
+(java -jar -Xmx15G ../scripts/common/juicer_tools.jar pre out_JBAT.txt out_JBAT.hic.part <(cat out_JBAT.log  | grep PRE_C_SIZE | awk '{print $2" "$3}')) && (mv out_JBAT.hic.part out_JBAT.hic)
+refgenome_name=your_genome_name
+mv .out_JBAT.hic ${refgenome_name}.out_JBAT.hic
+
 ```
 #####################################
 
