@@ -267,12 +267,19 @@ awk '
 ' merged_nodups.txt > merged_nodups_for_yahs.bed
 ```
 
-Now we run YaHS like this:
+Now we run YaHS in the following steps:
+Note: This works well if you get an interactive job since the whole steps run relatively fast <3h of watching it do the job, even if you have a medium-sized genome. 
+
+```
+mkdir yahs
+cd yahs
+```
+From inside yahs, all the paths to the files are relative so you shouldn't need to change file paths but change the variables defined $refgenome_name as you like.
 ```
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --account=rrg-rieseber-ac
-#SBATCH --time=5:00:00
+#SBATCH --time=3:00:00
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=257000
 #SBATCH --output=/home/kaedeh/scratch/Nettle/log_file/Nettle_female_hap1__hic.21Mar2024.out
@@ -284,11 +291,11 @@ module load  StdEnv/2023  gcc/12.3  samtools/1.20 python/3.11.5
 export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/yahs
 
 #1. give indexed genome
-input_refgenome=/home/kaedeh/scratch/Salmonberry/HiC_hap1/references/Salmonberry_redmorph_hifi_hifiasm_0.19.8_homcov_Q20_HiC.asm.hic.hap1.p_ctg.fa
+input_refgenome=../references/*.fa
 samtools faidx $input_refgenome
 
 #2. run yahs with the bed file indicating alignment of Hi-C reads to the refgenome.
-yahs $input_refgenome merged_nodups_for_yahs.bed
+yahs $input_refgenome ../aligned/merged_nodups_for_yahs.bed
 ```
 
 Now we going to create our hic and assembly file to observe it in Juicebox
@@ -296,19 +303,20 @@ Now we going to create our hic and assembly file to observe it in Juicebox
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --account=def-rieseber
-#SBATCH --time=3-0
+#SBATCH --time=3:00:00
 #SBATCH --ntasks-per-node=64
 #SBATCH --mem=248G
 
 module load  StdEnv/2023  gcc/12.3  samtools/1.20 python/3.11.5
 export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/yahs
+input_refgenome=../references/*.fa
+refgenome_name=your_genome_name
 
 #3. run juicre pre command on yahs to convert yahs output to .assembly and .hic for Juicebox manual curation.
 juicer pre -a -o out_JBAT yahs.out.bin yahs.out_scaffolds_final.agp ${input_refgenome}.fai >out_JBAT.log 2>&1
 mv out_JBAT.assembly ${refgenome_name}.out_JBAT.assembly
 
 (java -jar -Xmx15G ../scripts/common/juicer_tools.jar pre out_JBAT.txt out_JBAT.hic.part <(cat out_JBAT.log  | grep PRE_C_SIZE | awk '{print $2" "$3}')) && (mv out_JBAT.hic.part out_JBAT.hic)
-refgenome_name=your_genome_name
 mv .out_JBAT.hic ${refgenome_name}.out_JBAT.hic
 
 ```
