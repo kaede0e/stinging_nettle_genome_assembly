@@ -85,7 +85,7 @@ HiC_2=/home/kaedeh/scratch/Nettle/HiC/HiC_Nettle_FemQC1_FKDL240020059-1A_223GFKL
 Hifi_fastq=/home/kaedeh/scratch/Nettle/Pacbio_hifi/Nettle_female_Pacbio_hifi.fastq.gz
 
 hifiasm -o Nettle_female.asm -t 48 --h1 $HiC_1 --h2 $HiC_2 $Hifi_fastq -s 0.4 --hom-cov 128
-for genome in `ls *.gfa`;
+for genome in `ls *hap*p_ctg.gfa`;
 do
 	awk '/^S/{print ">"$2;print $3}' $genome > ${genome}.fa;
 done
