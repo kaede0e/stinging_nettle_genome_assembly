@@ -1,4 +1,5 @@
 #!/bin/bash
+
 ## I also installed plotsr in the same conda environment as syri /home/khirabayashi/miniforge3/envs. So, you have to do: 
 #conda deactivate #if you're in another conda. 
 #conda activate syri_env
@@ -51,6 +52,8 @@ Nettle_male_H2_Round_3_genome_reoriented_chrrenamed_for_syri.chr.fa     H2      
 
 
 #If you don't provide the custom.cfg file, the base cfg plotsr uses is below: 
+#base.cfg
+```
 ## COLOURS and transparency for alignments (syntenic, inverted, translocated, and duplicated)
 syncol:#CCCCCC
 invcol:#FFA500
@@ -80,4 +83,4 @@ norm:T                  ## For each chromosome, independently normalise the y-ax
 ## Axis
 maxl:-1                 ## Manually set maximum chromosome position. Use `-1` for automatic selection. Does not work with --itx
 genname:T               ## Write genome names adjacent to the chromosome (T) or not (F)
-
+```
