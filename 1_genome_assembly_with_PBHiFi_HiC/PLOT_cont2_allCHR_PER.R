@@ -103,10 +103,6 @@ diagMum <- function(df){
                  mumgp.filt = filterMum(mumgp, minl=1e4)
                  mumgp.filt.diag = diagMum(mumgp.filt)
 
-        #add vertical lines to the transposition region
-            #  data_vline <- data.frame(group = c("Chr2", "Chr3", "Chr4", "Chr5", "Chr6", "Chr6", "Chr6", "Chr6", "Chr8", "Chr9", "Chr11", "Chr12", "Chr14", "Chr15", "Chr16", "Chr17"), vline
-#=c(NA, NA, NA, NA, 125000000, 130000000, 130000000, 155000000, NA, NA, NA, NA, NA, NA, NA, NA))
-
 # If you want to modify y-axis order as you wish,
   desired_order <- c("F_H1_chr_01", "F_H2_chr_01", "M_H1_chr_01", "M_H2_chr_01", "F_H1_chr_02", "F_H2_chr_02", "M_H1_chr_02", "M_H2_chr_02", "F_H1_chr_03", "F_H2_chr_03", "M_H1_chr_03", "M_H2_chr_03", "F_H1_chr_04", "F_H2_chr_04", "M_H1_chr_04", "M_H2_chr_04", "F_H1_chr_05", "F_H2_chr_05", "M_H1_chr_05", "M_H2_chr_05", "F_H1_chr_06", "F_H2_chr_06", "M_H1_chr_06", "M_H2_chr_06", "F_H1_chr_07", "F_H2_chr_07", "M_H1_chr_07", "M_H2_chr_07", "F_H1_chr_08", "F_H2_chr_08", "M_H1_chr_08", "M_H2_chr_08", "F_H1_chr_09", "F_H2_chr_09", "M_H1_chr_09", "M_H2_chr_09", "F_H1_chr_10", "F_H2_chr_10", "M_H1_chr_10", "M_H2_chr_10", "F_H1_chr_11", "F_H2_chr_11", "M_H1_chr_11", "M_H2_chr_11", "F_H1_chr_12", "F_H2_chr_12", "M_H1_chr_12", "M_H2_chr_12", "F_H1_chr_13", "F_H2_chr_13", "M_H1_chr_13", "M_H2_chr_13")
   mumgp.filt.diag$qid <- factor(mumgp.filt.diag$qid, levels = desired_order)
@@ -126,20 +122,6 @@ diagMum <- function(df){
         axis.text.x=element_blank(), axis.ticks.x=element_blank(),
         panel.spacing=unit(0, 'cm')) +
   xlab('reference sequence') + ylab('assembly')  +  scale_colour_gradient2(low = inferno(1), high = inferno(50), midpoint = 97.5)
-#plus I also chenged this for anchorwave
-        # geom_vline(xintercept=INV_R, color = "green", size=1) +
-        # geom_vline(xintercept=INV_L, color = "green", size=1) +
-        # geom_vline(xintercept=centromers_s, color = "purple", size=1, alpha = .05) +
-        # annotate("rect", ymin = 0, ymax =  max( mumgp.filt.diag$qe), xmin = INV_L, xmax = INV_R, alpha = 0.2, fill = "green")
-        # geom_vline(xintercept=end, color = "purple", size=1, alpha = .05) +
-        #geom_vline(data = mumgp.filt.diag %>% filter(rid == "Ha412HOChr03"), aes(xintercept = 28000000), linetype="dotted", size=2) +
-        #geom_vline(data = mumgp.filt.diag %>% filter(rid == "Ha412HOChr03"), aes(xintercept = 42000000), linetype="dotted", size=2) +
-        #geom_vline(data = mumgp.filt.diag %>% filter(rid == "Ha412HOChr03"), aes(xintercept = 89000000), linetype="dotted", size=2)
-       # geom_hline(yintercept=TRANS_L, color = "green", size=1,  alpha = .05) +
-       # geom_hline(yintercept=TRANS_R, color = "green", size=1,  alpha = .05) +
-       # geom_hline(yintercept=INV_R, color = "red", size=1, alpha = .2) +
-       # geom_hline(yintercept=INV_L, color = "red", size=1, alpha = .2) +
-       # annotate("rect", xmin = 0, xmax =  max( mumgp.filt.diag$re), ymin = INV_L, ymax = INV_R, alpha = 0.2, fill = "red")
 
 jpeg( paste(name, ".jpg", sep ="_"),  width=4000, height= 4000)
 print(P1)
