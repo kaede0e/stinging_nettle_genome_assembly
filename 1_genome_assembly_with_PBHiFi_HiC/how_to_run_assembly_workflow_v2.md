@@ -182,8 +182,8 @@ In the end, you want your directory structure to look like this:
 	-- /fastq
  		-- HiC_read_R1.fastq.gz -> ~/home/data/~/rawreads1.fq.gz
    		-- HiC_read_R2.fastq.gz -> ~/home/data/~/rawreads2.fq.gz
-     	-- /restriction_sites 
-      		-- generate_positions.py (edited)
+	-- /restriction_sites 
+      	-- generate_positions.py (edited)
 		-- contig_assembly.DpnII.txt
   		-- conting_assembly.chrom.sizes
 ```
