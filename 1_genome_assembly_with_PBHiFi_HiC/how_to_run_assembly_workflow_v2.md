@@ -121,8 +121,8 @@ cd ../..
 nano scripts/juicer.sh #change juiceDir="Aidenlabs" to juiceDir=$(pwd) #very important!!! 
 mkdir fastq
 cd fastq
-ln -s /home/Nettle/raw_data/HiC/HiC_Nettle_FemQC1_FKDL240020059-1A_223GFKLT4_L1_1.fq.gz HiC_Nettle_FemQC1_R1.fastq.gz
-ln -s /home/Nettle/raw_data/HiC/HiC_Nettle_FemQC1_FKDL240020059-1A_223GFKLT4_L1_2.fq.gz HiC_Nettle_FemQC1_R2.fastq.gz
+ln -s /home/Nettle/raw_data/HiC/HiC_Nettle_FemQC1_FKDL240020059-1A_223GFKLT4_L1_1.fq.gz HiC_Nettle_FemQC1_R1.fastq.gz #forward read needs to have _R1 for Juicer to read
+ln -s /home/Nettle/raw_data/HiC/HiC_Nettle_FemQC1_FKDL240020059-1A_223GFKLT4_L1_2.fq.gz HiC_Nettle_FemQC1_R2.fastq.gz #reverse read needs to have _R2 for Juicer to read
 cd ../..
 mkdir references
 cd references/
