@@ -191,10 +191,10 @@ In the end, you want your directory structure to look like this:
 _run_jucier.sh_
 ```
 #!/bin/bash
-#SBATCH --nodes=1
+#SBATCH --ntasks=1
 #SBATCH --time=1-00:00:00
 #SBATCH --mem=510000M
-#SBATCH --cpus-per-node=32
+#SBATCH --cpus-per-task=32
 #SBATCH --account=
 #SBATCH --output=
 #SBATCH --error=
