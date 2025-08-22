@@ -163,24 +163,104 @@ fi
 
 #BRAKER3 run for nettle genome:
 # pre-requisite files
-#1. softmask your genome (I used RED - Repeat Detector in Cedar)
+#1. softmask your genome (I used RED - Repeat Detector)
+```
+#!/bin/bash
+#SBATCH --time=12:00:00
+#SBATCH --account=
+#SBATCH --ntasks=4
+#SBATCH --mem-per-cpu=10000
+#SBATCH --output=
+#SBATCH --error=
+
+######### Genome repeat detection and soft-masking with RED ###########
+
+#First, set up the working directory.
+module load StdEnv/2020 gcc python/3.8 augustus hmmer blast+ metaeuk prodigal r
+#virtualenv red_env
+source /home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/red_env/bin/activate
+#pip install biopython
+#pip install natsort
+
+export PATH=$PATH:/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/RED_RepeatDetector/redUnix64
+/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/redmask/redmask.py \
+-i Nettle_male_hap1_v1.fa \
+-o Nettle_male_hap1_v1
+
+/home/kaedeh/projects/def-gowens/kaedeh/cranberry_genome/bin/redmask/redmask.py \
+-i Nettle_male_hap2_v1.fa \
+-o Nettle_male_hap2_v1
+```
+
 #2. align RNAseq to your genome and export filel in BAM format
+```
+#!/bin/bash
+#SBATCH --time=10:00:00
+#SBATCH --account=
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=14
+#SBATCH --mem=125000M
+#SBATCH --output=
+#SBATCH --error=
+
+# ---------------------------------------------------------------------
+echo "Current working directory: `pwd`"
+echo "Starting run at: `date`"
+echo "SLURM_JOBID: " $SLURM_JOBID
+# ---------------------------------------------------------------------
+echo ""
+
+## Preparing bam file for RNAseq alignment to the refgenome to be used as BRAKER input ##
+
+#####################################
+#### Execution of programmes ########
+#####################################
+
+export PATH=$PATH:/home/kaedeh/scratch/Cannabis/annotation
+export PATH=$PATH:/home/kaedeh/scratch/Cannabis/annotation/reference_RNAseq #store my Illumina reads here
+module load StdEnv/2020 gcc/9.3.0 blast+/2.13.0
+module load hisat2 stringtie samtools
+
+# ---------------------------------------------------------------------
+
+#### 0. QC RNA reads & check all files are there ########
+# Make sure to run fastqc/0.11.9 or fastp before using the data.
+# Make sure to copy one final draft genome to working directory
+# Make sure to have all RNAseq .fastq files (paired end, stranded) in ~/raw_fastq_files/*_1.fastq or *_2.fastq, matching prefix for paired reads.
+
+# ---------------------------------------------------------------------
+
+input_refgenome=Nettle_male_hap2_v1.softmasked.fa
+assembly_name=Nettle_male_hap2_v1.softmasked
+
+#### Transcript alignment to genome ####
+hisat2-build $input_refgenome ${assembly_name}_hisat2_index #took about 20min
+ls /home/kaedeh/projects/def-gowens/kaedeh/Nettle/raw_data/reference_data/RNAseq/*_1_paired*.fastq.gz | tr '\n' ',' | sed 's/.$//' > RNAseq_m1_list_of_files.txt
+ls /home/kaedeh/projects/def-gowens/kaedeh/Nettle/raw_data/reference_data/RNAseq/*_2_paired*.fastq.gz | tr '\n' ',' | sed 's/.$//' > RNAseq_m2_list_of_files.txt
+hisat2 \
+-q -x ${assembly_name}_hisat2_index -1 `cat RNAseq_m1_list_of_files.txt` -2 `cat RNAseq_m2_list_of_files.txt` -S ${assembly_name}_RNAseq_on_genome_hisat2_aln.sam --threads 12
+samtools sort --threads 12 -o ${assembly_name}_RNAseq_on_genome_hisat2_aln.bam ${assembly_name}_RNAseq_on_genome_hisat2_aln.sam
+
+
+#echo "Finished Hisat2 alignment: `date`"
+```
+
 #3. ensure desired protein database from OrthoDB is installed
 # then run braker (This is the test3.sh pipeline that uses RNAseq+protein search and TSEBRA to filter gene hits):
 
 #braker.pl --PROTHINT_PATH=/home/ProtHint/bin --species "stinging_nettle" --genome=Nettle_female_H1_v1_genome.softmasked.fa --prot_seq=Viridiplantae.fa --bam=Nettle_female_H1_v1_genome_red_softmasked_RNAseq_on_genome_hisat2_aln.bam --softmasking --workingdir=braker3.Nettle_female_H1_v1_RNA_ProtsViridiplantaeOrthoDB --threads 20 &
 
-braker.pl --genome=BRAKER3_input/Nettle_female_H1_Round_5_chrname_reordered_genome_repeatmsaked.fa.softmasked.fa \
---species "Urtica_dioica" \
+braker.pl --genome=BRAKER3_input/Nettle_male_hap1_v1.softmasked.fa \
+--species "Urtica_dioica_male" \
 --prot_seq=BRAKER3_input/Viridiplantae.fa \
---bam=BRAKER3_input/Nettle_female_H1_RNAseq_on_genome_hisat2_aln.bam \
+--bam=BRAKER3_input/Nettle_male_hap2_v1_RNAseq_on_genome_hisat2_aln.bam \
 --softmasking \
---workingdir=braker3.Nettle_female_H1_v1_RNA_ProtsViridiplantaeOrthoDB --threads 20 &> Nettle_female_H1_braker3_v1.log
+--workingdir=braker3.Nettle_male_H1_v1_RNA_ProtsViridiplantaeOrthoDB --threads 20 &> Nettle_male_H1_braker3_v1.log
 
-braker.pl --genome=BRAKER3_input/Nettle_female_H2_Round_5_chrname_reordered_genome_repeatmsaked.fa.softmasked.fa \
---species "Urtica_dioica" \
+braker.pl --genome=BRAKER3_input/Nettle_male_hap2_v1.softmasked.fa \
+--species "Urtica_dioica_male" \
 --useexisting \
 --prot_seq=BRAKER3_input/Viridiplantae.fa \
---bam=BRAKER3_input/Nettle_female_H2_RNAseq_on_genome_hisat2_aln.bam \
+--bam=BRAKER3_input/Nettle_male_hap2_v1_RNAseq_on_genome_hisat2_aln.bam \
 --softmasking \
---workingdir=braker3.Nettle_female_H2_v1_RNA_ProtsViridiplantaeOrthoDB --threads 20 &> Nettle_female_H2_braker3_v1.log
+--workingdir=braker3.Nettle_male_H2_v1_RNA_ProtsViridiplantaeOrthoDB --threads 20 &> Nettle_male_H2_braker3_v1.log
