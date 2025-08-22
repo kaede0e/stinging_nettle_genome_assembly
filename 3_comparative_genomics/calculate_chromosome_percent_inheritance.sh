@@ -3,6 +3,11 @@
 # This script is used to calculate the proportion of chromosome that got inherited to the offspring by using nucleotide alignment.
 
 # Step 1: run minimap2 to align and produce .paf file (follow "run_minimap2_plot_aln_four_haplotypes.sh)
+#eg) # Align female H1 to refgenome = $genome1 (FH1; only use 13 chromosomes, no scaffolds)
+genome1=Nettle_female_H1_Round_8_genome.chr.fa
+genome2=Nettle_female_H1_Round_8_genome_renamed.fa
+
+#minimap2 -cx asm5 $genome1 $genome2 -t 40 > Nettle_female_H1_chr_vs_female_Round8_H1.paf
 
 # Step 2: calculate the sum of alingnment length, only if alignment quality is >30 and % identity is >99.7% (these cutoffs are adjustable)
 cat Nettle_female_H2_chr_vs_male_Round3_H1.paf \
