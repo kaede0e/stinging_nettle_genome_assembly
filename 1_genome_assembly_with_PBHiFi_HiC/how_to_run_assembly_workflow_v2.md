@@ -192,8 +192,8 @@ _run_jucier.sh_
 ```
 #!/bin/bash
 #SBATCH --ntasks=1
-#SBATCH --time=1-00:00:00
-#SBATCH --mem=510000M
+#SBATCH --time=6:00:00
+#SBATCH --mem=128000M
 #SBATCH --cpus-per-task=32
 #SBATCH --account=
 #SBATCH --output=
@@ -204,16 +204,16 @@ _run_jucier.sh_
 #####################################
 
 module load StdEnv/2020 bwa/0.7.17 java/17.0.2 samtools/1.15.1
-export PATH=$PATH:/home/~bin/juicer/CPU
+export PATH=$PATH:/~/bin/juicer/CPU
 
 #run juicer
-bash scripts/juicer.sh -g Nettle_female.asm.hic.hap1.p_ctg -s DpnII \
--z references/Nettle_female.asm.hic.hap1.p_ctg.fa -y restriction_sites/Nettle_female.asm.hic.hap1.p_ctg_DpnII.txt \
--p restriction_sites/Nettle_female.chrom.sizes \
--t 28 --assembly
+bash scripts/juicer.sh -g Smin_hap1_ctg -s DpnII \
+-z references/Sclerotinia_minor_hifiasm_1.asm.hic.hap1.p_ctg.fa -y restriction_sites/Smin_hap1_ctg_DpnII.txt \
+-p restriction_sites/Smin_hap1_ctg_DpnII.v1.chrom.sizes \
+-t 30 --assembly
 
 # ---------------------------------------------------------------------
-echo "Done Juicer Hi-C analysis.  Use YaHS to scaffold contigs further."
+echo "Done Juicer Hi-C analysis.  Use 3D-DNA to scaffold contigs further."
 # ---------------------------------------------------------------------
 
 echo "Finished job at `date`"
