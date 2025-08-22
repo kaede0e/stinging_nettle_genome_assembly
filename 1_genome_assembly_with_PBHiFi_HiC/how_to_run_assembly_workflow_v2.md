@@ -210,7 +210,7 @@ export PATH=$PATH:/home/~bin/juicer/CPU
 bash scripts/juicer.sh -g Nettle_female.asm.hic.hap1.p_ctg -s DpnII \
 -z references/Nettle_female.asm.hic.hap1.p_ctg.fa -y restriction_sites/Nettle_female.asm.hic.hap1.p_ctg_DpnII.txt \
 -p restriction_sites/Nettle_female.chrom.sizes \
--t 28 -S early
+-t 28 --assembly
 
 # ---------------------------------------------------------------------
 echo "Done Juicer Hi-C analysis.  Use YaHS to scaffold contigs further."
