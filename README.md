@@ -17,9 +17,10 @@ The male assembly report consists of:
 - Repeat annotation with EDTA (TEs) and RepeatOBserver (telomeric sequences, centromeric repeats)
 - Describe polycentric behaviour of nettle chromosomes
 - Describe genes/proteins that are potentially responsible for stinging hairs
+- Compare with the female (biological mother) assembly to identify maternally- and paternally-inherited chromosomes
 
 
-## _De novo_ assembly pipeline (exact steps I've taken) for female clone
+## _De novo_ assembly pipeline (exact steps I've taken) for female clone 11-4
 1) Filter HiFi reads by Q20 [fastq.filter](https://github.com/LUMC/fastq-filter)
 2) Run [Hififasm](https://hifiasm.readthedocs.io/en/latest/) with HiFi + Hi-C
 3) Run [Juicer](https://github.com/aidenlab/juicer) to produce .hic and .assembly file - works as a matrix for Hi-C reads to then map onto. 
@@ -51,7 +52,7 @@ The male assembly report consists of:
 For list of intermediate files generated during the above process in a table, see my_juicebox.assembly_files.txt.
 _also on the manuscript, I am referring to the different round number designations because I did not perform quality metric checks at every step on the way. I divided the Rounds of curation by distinctive steps with QC vakues available: Round 1 - visual Hi-C scaffolding with H1 and H2 and H1+H2 maps, Round 2 - attemp to incorporate ONT reads to fill the gaps, further curation with H1+H2 map and visually inspect, Round 3 - extensive manual curation using minimap2+SyRI coordinates to check INVs specificially, as well as checking if long-reads span breakpoints, Round 4 - final manual curation; using -q 0 on 3d-dna pipeline command, allowing mapping quality 0 reads to be visualized on the H1+H2 genome, corrected switch errors mainly to make the Hi-C map look smoother. Used minimap2+SyRI again to check exact INV coordinates only and made all change in H1+H2 map._
 
-## _De novo_ assembly pipeline (exact steps I've taken) for male F1
+## _De novo_ assembly pipeline (exact steps I've taken) for male 48M (clone 11-4 x clone 7-5)
 1) Filter HiFi reads by Q20 [fastq.filter](https://github.com/LUMC/fastq-filter)
 2) Run [Hififasm](https://hifiasm.readthedocs.io/en/latest/) with HiFi + Hi-C
 3) Run [Juicer](https://github.com/aidenlab/juicer) to create Hi-C matrix file describing Hi-C reads alignment to the assembly --> merged_nodups.txt.
