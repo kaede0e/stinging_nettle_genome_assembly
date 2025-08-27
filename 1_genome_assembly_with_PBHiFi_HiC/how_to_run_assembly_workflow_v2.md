@@ -349,15 +349,20 @@ mv out_JBAT.hic ${ref_asm}.out_JBAT.hic
 
 mkdir yahs
 mv yahs.out* out_JBAT* yahs
+```
+
+#######################################################################################
+
 
 #4. Open Juicebox to correct contigs/scaffolds as necessary. 
+#4.1) Download Juicebox desktop app: https://github.com/aidenlab/Juicebox/wiki/Download
+#4.2) Download your .hic and .assembly file to your local computer. 
+#4.3) Open Desktop app & go to File --> Open file... --> select the .hic file. Then go to Assembly --> Import Map Assembly --> load the .assemly file
 
 #5. once you have the .review file again, run below to reproduce .fasta file. 
 juicer post -o out_JBAT Salmonberry_redmorph_hifi_hifiasm_0.19.8_homcov_Q20_HiC.asm.hic.hap2.p_ctg_out_JBAT.review.1.assembly \
 out_JBAT.liftover.agp ../references/*.fa     #the contig/previous assembly file you used to generate juicer data
-```
 
-#######################################################################################
 #at this point change scaffold names to chromosome names that match the order and orientation of published reference genome.
 
 ### The step below further confirms SVs between haplotypes by combining H1 and H2 assembly, map Hi-C reads simultaneously, and visualize on Juicebox to manually check the Hi-C interactions. 
