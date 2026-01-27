@@ -428,7 +428,7 @@ echo "Finished job at `date`"
 ```
 Here, you load and check .hic and .assembly file with Juicebox. Manually correct assemblies H1 and H2 simultaneously if necesasry, but keep it minimal and only correct if they are obvious. 
 
-#-------- Convert .assembly to .fasta with R script by Moshutava and Eric ---------#
+#-------- Convert .assembly to .fasta with R script by Mojtaba J. and Eric GS. ---------#
 ```
 #!/bin/bash
 #SBATCH --account=
