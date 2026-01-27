@@ -473,7 +473,7 @@ Inspect how the histogram automatically created by purge_dups looks like and see
 _run_histo.sh_
 ```
 #pip install matplotlib
-python3 hist_plot.py -c cutoffs_manual PB.stat PB.cov.png
+python3 hist_plot.py -c cutoffs_manual PB.stat PB.cov.png #this python script is found under scripts/ of the purge_dups github page if you don't find it
 ```
 
 
