@@ -444,6 +444,38 @@ Rscript asm_to_fasta_me.R Round_1_Nettle_male_hifiasm_yahs_hap1_hap2_scaff.0.rev
 
 ```
 
+#-------- If you further want to 'clean' the assemblies by removing the small debris that are not important biologically, you can run purge_dups to remove haplotigs. ---------#
+Here, you are aligning the raw PacBio HiFi data (recommended) to the finalized assembly, to determine which cut-offs to use as calling them 'haplotigs' or too repetitive contigs. \
+_run_purge_dups.sh__
+```
+#!/bin.bash
+export PATH=$PATH:/home/khirabayashi/bin/purge_dups/scripts
+export PATH=$PATH:/home/khirabayashi/bin/purge_dups/src
+export PATH=$PATH:/home/khirabayashi/bin/purge_dups/bin
+
+pri_asm=Round_2_hap1.reviewed.chr_assembled.fasta
+
+PacBioCCS=/scratch/khirabayashi/Nettle/assembly/Nettle_male_Pacbio_hifi_filtered_Q20.fastq.gz
+
+minimap2 -xasm20 $pri_asm $PacBioCCS -t 40 | gzip -c - > ${pri_asm}_PBHiFi_aln.paf.gz
+split_fa $pri_asm > ${pri_asm}.split
+minimap2 -xasm5 -DP ${pri_asm}.split ${pri_asm}.split -t 40 | gzip -c - > ${pri_asm}.split.self.paf.gz
+
+pbcstat *.paf.gz
+calcuts PB.stat > cutoffs 2>calcults.log
+
+purge_dups -2 -T cutoffs -c PB.base.cov $pri_asm.split.self.paf.gz > dups.bed 2> purge_dups.log
+#purge_dups -2 -T cutoffs.manual -c PB.base.cov $pri_asm.split.self.paf.gz > dups.bed 2> purge_dups.log
+
+get_seqs -e dups.bed $pri_asm
+```
+Inspect how the histogram automatically created by purge_dups looks like and see if the cut-offs makes sense: \
+_run_histo.sh_
+```
+#pip install matplotlib
+python3 hist_plot.py -c cutoffs_manual PB.stat PB.cov.png
+```
+
 
 #----- To further check if SVs between haplotypes are real ---------# 
 
