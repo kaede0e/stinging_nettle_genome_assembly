@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/r
 # Riparian plotting! 
 # get an interactive job, load all modules and open R for riparian plotting: 
 genomeRepo <- "/home/kaedeh/projects/def-gowens/kaedeh/Nettle/raw_data/reference_data/genomeRepo"
