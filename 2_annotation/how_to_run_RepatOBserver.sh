@@ -14,6 +14,7 @@ module load r/4.1.2
 srun Setup_Run_Repeats.sh -i NettleFemaleR5 -f Nettle_female_H1_Round_5_chrname_reordered_genome.chr.fa -h H1 -c 15 -m 128000 -g FALSE &> RepeatOBserver_Hap1_R5_log.txt
 
 EOF
+# The -i flag cannot contain any underscores "_" so choose SpeciesName as the name
 
 sbatch SPP_repeats_H1.sh
 
