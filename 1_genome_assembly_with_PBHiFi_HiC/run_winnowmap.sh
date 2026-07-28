@@ -48,3 +48,53 @@ samtools index -M -b --threads 22 -o Nettle_female_H1_v1_winnowmap_HIFI.sorted.b
 winnowmap -k 19 -W repetitive_k19_H1.txt -ax map-pb $genome_H2 $HIFI_reads > winnowmap/Nettle_female_H2_v1_winnowmap_HIFI.sam
 samtools sort Nettle_female_H2_v1_winnowmap_HIFI.sam --threads 22 > Nettle_female_H2_v1_winnowmap_HIFI.sorted.bam
 samtools index -M -b --threads 22 -o Nettle_female_H2_v1_winnowmap_HIFI.sorted.bam.bai Nettle_female_H2_v1_winnowmap_HIFI.sorted.bam
+
+
+#4. you can download the reference genome you want to visualize at this stage, making sure that the indexing is done properly.
+
+#5. extract bam file by chromosome
+for chrnum in {1..9}; 
+do
+  samtools view -b Nettle_female_H1_v1_winnowmap_HIFI.sorted.bam Urtica_dioica_female_chr_0${chrnum} > Nettle_female_H1_v1_winnowmap_HIFI.sorted_chr_0${chrnum}.bam;
+  samtools index -M -b -o Nettle_female_H1_v1_winnowmap_HIFI.sorted_chr_0${chrnum}.bam.bai Nettle_female_H1_v1_winnowmap_HIFI.sorted_chr_0${chrnum}.bam; 
+done
+
+for chrnum in {10..13}; 
+do
+  samtools view -b Nettle_female_H1_v1_winnowmap_HIFI.sorted.bam Urtica_dioica_female_chr_${chrnum} > Nettle_female_H1_v1_winnowmap_HIFI.sorted_chr_${chrnum}.bam;
+  samtools index -M -b -o Nettle_female_H1_v1_winnowmap_HIFI.sorted_chr_${chrnum}.bam.bai Nettle_female_H1_v1_winnowmap_HIFI.sorted_chr_${chrnum}.bam; 
+done
+
+for chrnum in {1..9}; 
+do
+  samtools view -b Nettle_female_H2_v1_winnowmap_HIFI.sorted.bam Urtica_dioica_female_chr_0${chrnum} > Nettle_female_H2_v1_winnowmap_HIFI.sorted_chr_0${chrnum}.bam;
+  samtools index -M -b -o Nettle_female_H2_v1_winnowmap_HIFI.sorted_chr_0${chrnum}.bam.bai Nettle_female_H2_v1_winnowmap_HIFI.sorted_chr_0${chrnum}.bam; 
+done
+
+for chrnum in {10..13}; 
+do
+  samtools view -b Nettle_female_H2_v1_winnowmap_HIFI.sorted.bam Urtica_dioica_female_chr_${chrnum} > Nettle_female_H2_v1_winnowmap_HIFI.sorted_chr_${chrnum}.bam;
+  samtools index -M -b -o Nettle_female_H2_v1_winnowmap_HIFI.sorted_chr_${chrnum}.bam.bai Nettle_female_H2_v1_winnowmap_HIFI.sorted_chr_${chrnum}.bam; 
+done
+
+#6. prepare a bed file of inversion positions
+nano Nettle_female_H1_syriINV_chr02.bed
+cat syri.out | awk '{if ($11 == "INV"){print}}' | grep "Urtica_dioica_female_chr_02" | awk '{if ($3-$2 >= 10000){print}}' | cut -f -3
+Urtica_dioica_female_chr_02     13675776        13687734
+Urtica_dioica_female_chr_02     19833948        19844872
+Urtica_dioica_female_chr_02     20209329        20227555
+Urtica_dioica_female_chr_02     20228137        21550767
+Urtica_dioica_female_chr_02     21721136        22012180
+Urtica_dioica_female_chr_02     40088164        43483608
+#also if you want, you can create a table for INV >10,000bp like this: 
+cat syri.out | awk '{if ($11 == "INV"){print}}' | grep "Urtica_dioica_female_chr_02" | awk '{if ($3-$2 >= 10000){print}}'
+Urtica_dioica_female_chr_02     13675776        13687734        -       -       Urtica_dioica_female_chr_02     13685943        13697901  INV547   -       INV     -
+Urtica_dioica_female_chr_02     19833948        19844872        -       -       Urtica_dioica_female_chr_02     19126056        19134042  INV549   -       INV     -
+Urtica_dioica_female_chr_02     20209329        20227555        -       -       Urtica_dioica_female_chr_02     19163924        19185438  INV550   -       INV     -
+Urtica_dioica_female_chr_02     20228137        21550767        -       -       Urtica_dioica_female_chr_02     19476892        20954093  INV551   -       INV     -
+Urtica_dioica_female_chr_02     21721136        22012180        -       -       Urtica_dioica_female_chr_02     21254530        21466722  INV552   -       INV     -
+Urtica_dioica_female_chr_02     40088164        43483608        -       -       Urtica_dioica_female_chr_02     40601525        44371308  INV555   -       INV     -
+
+#7. load the genome.fasta, then INV.bam and INV.bed on IGV. 
+
+
