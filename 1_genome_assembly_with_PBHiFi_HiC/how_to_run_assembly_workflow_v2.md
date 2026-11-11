@@ -188,7 +188,7 @@ In the end, you want your directory structure to look like this:
   		-- conting_assembly.chrom.sizes
 ```
 #---- now run this Juicer script in a core with many CPUs ----------#
-_run_jucier.sh_
+_run_juicer.sh_
 ```
 #!/bin/bash
 #SBATCH --ntasks=1
